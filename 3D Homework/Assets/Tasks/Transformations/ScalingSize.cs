@@ -7,11 +7,10 @@ namespace Tasks.Transformations
     public class ScalingSize : MonoBehaviour
     {
         [SerializeField] private float _timeToFullScale = 2f;
-
         [SerializeField] private float _maxScale = 2f;
-        private float _startScale;
-
         [SerializeField] private bool _looping = true;
+        
+        private float _startScale;
 
         private void Start()
         {
