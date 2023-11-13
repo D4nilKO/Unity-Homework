@@ -5,13 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e225893f-1104-48a0-96d4-bbc96deecad4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tasks/Transformations/ScalingSize.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tasks/Transformations/ScalingSize.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Enemy Spawner.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Enemy Spawner/Enemy.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Enemy Spawner/Enemy.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Enemy Spawner/Enemy.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Enemy Spawner/Enemy.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Enemy Spawner/EnemySpawner.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Enemy Spawner/EnemySpawner.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Enemy Spawner/EnemySpawnerSample.unity" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Enemy Spawner/EnemySpawnerSample.unity.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Enemy Spawner/Red.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Enemy Spawner/Red.mat.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.3D Homework/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.3D Homework/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/Desktop/homework/homework/OOP/Supermarket.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -78,6 +91,7 @@
       <updated>1698917685949</updated>
       <workItem from="1698917691394" duration="1162000" />
       <workItem from="1699796506823" duration="4846000" />
+      <workItem from="1699865099498" duration="905000" />
     </task>
     <servers />
   </component>
