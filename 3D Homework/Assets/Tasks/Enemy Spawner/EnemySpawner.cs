@@ -9,7 +9,7 @@ namespace Tasks.Enemy_Spawner
         [SerializeField] [Min(1)] private float _timeToSpawn = 1f;
         [SerializeField] private Enemy _enemy;
         [SerializeField] private List<Transform> _spawnPoints = new();
-        
+
         private void Start()
         {
             StartCoroutine(Spawn());
@@ -17,18 +17,15 @@ namespace Tasks.Enemy_Spawner
 
         private IEnumerator Spawn()
         {
-            float time = 0;
+            WaitForSeconds secondsToSpawn = new(_timeToSpawn);
 
-            while (time <= _timeToSpawn)
+            while (true)
             {
-                time += Time.deltaTime;
-                yield return null;
+                yield return secondsToSpawn;
+
+                Enemy enemy = Instantiate(_enemy, GetRandomPoint().position, Quaternion.identity);
+                enemy.Init(GetRandomDirection());
             }
-
-            Enemy enemy = Instantiate(_enemy, GetRandomPoint().position, Quaternion.identity);
-            enemy.Init(GetRandomDirection());
-
-            StartCoroutine(Spawn());
         }
 
         private Vector3 GetRandomDirection()
