@@ -260,7 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b7404b8f4dc4f5692276df25ac483d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeToSpawn: 2
+  _timeToSpawn: 1
   _enemy: {fileID: 515828575936277632, guid: d7e9ae8fc4b00f54dbc1203623d73eba, type: 3}
   _spawnPoints:
   - {fileID: 1423618149}
