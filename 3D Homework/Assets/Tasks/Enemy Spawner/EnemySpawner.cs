@@ -17,11 +17,11 @@ namespace Tasks.Enemy_Spawner
 
         private IEnumerator Spawn()
         {
-            WaitForSeconds waitSpawn = new(_timeToSpawn);
+            WaitForSeconds secondsToSpawn = new(_timeToSpawn);
 
             while (true)
             {
-                yield return waitSpawn;
+                yield return secondsToSpawn;
 
                 Enemy enemy = Instantiate(_enemy, GetRandomPoint().position, Quaternion.identity);
                 enemy.Init(GetRandomDirection());
