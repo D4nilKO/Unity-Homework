@@ -5,35 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e225893f-1104-48a0-96d4-bbc96deecad4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/AdvancedEnemyGenerationSample.unity" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/AdvancedEnemyGenerationSample.unity.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Enemy Blue.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Enemy Blue.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Enemy Green.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Enemy Green.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Enemy Red.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Enemy Red.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Enemy Standard.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Enemy Standard.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Materials.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Materials/Blue.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Materials/Blue.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Materials/Green.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Materials/Green.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Materials/Red.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Materials/Red.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/MoverByPoints.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/MoverByPoints.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/MoverToTarget.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/MoverToTarget.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/SpawnPoint.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/SpawnPoint.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Spawner.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/Spawner.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Code Style.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Code Style/BulletCreator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Code Style/BulletCreator.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Code Style/MoverToPoints.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tasks/Code Style/MoverToPoints.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.3D Homework/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.3D Homework/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tasks/Enemy Spawner/EnemySpawner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tasks/Enemy Spawner/EnemySpawner.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tasks/Enemy Spawner/Red.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tasks/Enemy Spawner/Red.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/MoverByPoints.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tasks/Advanced Enemy Generation/MoverByPoints.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +90,8 @@
       <workItem from="1699865099498" duration="1778000" />
       <workItem from="1700237793119" duration="3388000" />
       <workItem from="1700317054160" duration="5443000" />
-      <workItem from="1700325691577" duration="996000" />
+      <workItem from="1700325691577" duration="1596000" />
+      <workItem from="1700340541447" duration="3627000" />
     </task>
     <servers />
   </component>
