@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 775ee48336cf6ec409930a78ca1c5167
+guid: fa6c74d827b00ac4985213f8b17194f0
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -149,7 +149,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Character Idle 48x48_0
+      name: player jump 48x48_0
       rect:
         serializedVersion: 2
         x: 0
@@ -163,14 +163,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3eb491415249afe49af686def860a9cb
-      internalID: 490098680
+      spriteID: 93beac973107c114bb79d88c8d786ed6
+      internalID: 766971609
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character Idle 48x48_1
+      name: player jump 48x48_1
       rect:
         serializedVersion: 2
         x: 48
@@ -184,14 +184,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1af1cbb84b3f1ba4aa1d06a1a2bdeb52
-      internalID: -1992978679
+      spriteID: 3b195a34bf7326b4eac36fbc12e0aad0
+      internalID: 1776174987
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character Idle 48x48_2
+      name: player jump 48x48_2
       rect:
         serializedVersion: 2
         x: 96
@@ -205,155 +205,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f318c1bfe818bdc40a94796b0ca467d4
-      internalID: -2146743643
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Character Idle 48x48_3
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 0
-        width: 48
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 972eb43906f5cbc4cb54db4914851d6f
-      internalID: -1610128168
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Character Idle 48x48_4
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 0
-        width: 48
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e09e7deadbd211246ab113835001651f
-      internalID: -490061552
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Character Idle 48x48_5
-      rect:
-        serializedVersion: 2
-        x: 240
-        y: 0
-        width: 48
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 702114833047bfc429238f64ec8d53a3
-      internalID: 648063148
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Character Idle 48x48_6
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 0
-        width: 48
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a2370e7928cf7bb4e8073ba56437339d
-      internalID: 1459890832
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Character Idle 48x48_7
-      rect:
-        serializedVersion: 2
-        x: 336
-        y: 0
-        width: 48
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 745eed88560197b449684e45a467e370
-      internalID: 1895133440
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Character Idle 48x48_8
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 0
-        width: 48
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cc8c91e8eae43bc45a5d16cbca923b81
-      internalID: -176658673
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Character Idle 48x48_9
-      rect:
-        serializedVersion: 2
-        x: 432
-        y: 0
-        width: 48
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3888d6c1fd7ee0240b97c425f4942099
-      internalID: -2020598201
+      spriteID: bdd65b0267ce7cf458ba0e561744ba35
+      internalID: -1823094559
       vertices: []
       indices: 
       edges: []
@@ -369,16 +222,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Character Idle 48x48_0: 490098680
-      Character Idle 48x48_1: -1992978679
-      Character Idle 48x48_2: -2146743643
-      Character Idle 48x48_3: -1610128168
-      Character Idle 48x48_4: -490061552
-      Character Idle 48x48_5: 648063148
-      Character Idle 48x48_6: 1459890832
-      Character Idle 48x48_7: 1895133440
-      Character Idle 48x48_8: -176658673
-      Character Idle 48x48_9: -2020598201
+      player jump 48x48_0: 766971609
+      player jump 48x48_1: 1776174987
+      player jump 48x48_2: -1823094559
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
