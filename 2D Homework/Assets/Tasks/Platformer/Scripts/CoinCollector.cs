@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+using Tasks.Platformer.Scripts;
 using UnityEngine;
 
-public class CoinMagnet : MonoBehaviour
+[RequireComponent(typeof(Wallet))]
+public class CoinCollector : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Wallet _wallet;
+    
+    private void Start()
     {
-        
+        _wallet = GetComponent<Wallet>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D col)
     {
-        
+        if (col.TryGetComponent(out Coin coin))
+        {
+            _wallet.Add(coin.Amount);
+            Destroy(coin.gameObject);
+        }
     }
 }
