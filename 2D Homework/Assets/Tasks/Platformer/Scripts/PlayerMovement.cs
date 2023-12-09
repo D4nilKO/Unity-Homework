@@ -3,14 +3,11 @@ using UnityEngine;
 namespace Tasks.Platformer.Scripts
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(SpriteRenderer))]
+    [RequireComponent(typeof(PlayerAnimator))]
     public class PlayerMovement : MonoBehaviour
     {
         private const string MovingAxisName = "Horizontal";
-
-        public readonly int Speed = Animator.StringToHash(nameof(Speed));
-        public readonly int Grounded = Animator.StringToHash(nameof(Grounded));
 
         [SerializeField] private Transform _groundChecker;
         [SerializeField] private float _speed = 3f;
@@ -20,15 +17,16 @@ namespace Tasks.Platformer.Scripts
         private float _rayLenght = 0.1f;
         private Rigidbody2D _rigidbody;
 
-        private Animator _animator;
         private SpriteRenderer _spriteRenderer;
-        
-        private bool IsGrounded => Physics2D.Raycast(_groundChecker.position, Vector2.down, _rayLenght, _groundLayerMask);
+        private PlayerAnimator _playerAnimator;
+
+        public bool IsGrounded =>
+            Physics2D.Raycast(_groundChecker.position, Vector2.down, _rayLenght, _groundLayerMask);
 
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
-            _animator = GetComponent<Animator>();
+            _playerAnimator = GetComponent<PlayerAnimator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
@@ -40,16 +38,6 @@ namespace Tasks.Platformer.Scripts
             {
                 TryJump();
             }
-        }
-
-        private void OnCollisionEnter2D(Collision2D col)
-        {
-            _animator.SetBool(Grounded, IsGrounded);
-        }
-
-        private void OnCollisionExit2D(Collision2D other)
-        {
-            _animator.SetBool(Grounded, IsGrounded);
         }
 
         private void Move()
@@ -67,8 +55,8 @@ namespace Tasks.Platformer.Scripts
                     break;
             }
 
-            _animator.SetFloat(Speed, Mathf.Abs(directionX));
-            _animator.SetBool(Grounded, IsGrounded);
+            _playerAnimator.SetSpeed(directionX);
+            _playerAnimator.SetGrounded();
         }
 
         private void TryJump()
@@ -77,7 +65,7 @@ namespace Tasks.Platformer.Scripts
             {
                 Jump();
 
-                _animator.SetBool(Grounded, IsGrounded);
+                _playerAnimator.SetGrounded();
             }
         }
 
