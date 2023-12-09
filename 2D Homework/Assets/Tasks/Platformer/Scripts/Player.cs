@@ -1,6 +1,8 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+namespace Tasks.Platformer.Scripts
 {
-    
+    public class Player : MonoBehaviour
+    {
+    }
 }

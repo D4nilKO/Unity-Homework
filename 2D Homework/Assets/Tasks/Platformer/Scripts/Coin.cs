@@ -1,8 +1,10 @@
-using Tasks.Platformer.Scripts;
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+namespace Tasks.Platformer.Scripts
 {
-    [SerializeField] private int _amount;
-    public int Amount => _amount;
+    public class Coin : MonoBehaviour
+    {
+        [SerializeField] [Min(1)] private int _amount;
+        public int Amount => _amount;
+    }
 }

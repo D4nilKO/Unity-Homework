@@ -4,7 +4,7 @@ namespace Tasks.Platformer.Scripts
 {
     public class Wallet : MonoBehaviour
     {
-        [SerializeField] private int _money;
+        [SerializeField] [Min(0)] private int _money;
 
         public void Add(int amount)
         {
