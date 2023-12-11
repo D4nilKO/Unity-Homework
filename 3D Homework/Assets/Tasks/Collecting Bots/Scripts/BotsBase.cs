@@ -90,7 +90,6 @@ namespace Tasks.Collecting_Bots.Scripts
                     }
                 }
 
-                // Как сделать добавление разных ресурсов без switch?
                 switch (resource.GetResourceType())
                 {
                     case ResourceMaterial.Iron:
