@@ -5,13 +5,8 @@ namespace Tasks.Collecting_Bots.Scripts
     [RequireComponent(typeof(MoverToTarget))]
     public class CollectingBot : MonoBehaviour
     {
-        [SerializeField] private Transform _home;
-        [SerializeField] private Resource _resource;
-        
-        public bool _isReached;
-        
-        private bool _goingHome;
-        private bool _hasResource;
+        private Transform _home;
+        private Resource _resource;
         
         private MoverToTarget _moverToTarget;
         
@@ -28,18 +23,17 @@ namespace Tasks.Collecting_Bots.Scripts
             TryCollectResource(other);
         }
         
-        private void TryCollectResource(Component other)
+        public void SetTarget(Resource target)
         {
-            if (other.TryGetComponent(out Resource resource) && _hasResource == false)
-            {
-                if (resource == _resource)
-                {
-                    _resource.transform.parent = gameObject.transform;
-                    _hasResource = true;
-                
-                    GoHome();
-                }
-            }
+            _resource = target;
+            _moverToTarget.SetTarget(target.transform);
+            Free = false;
+        }
+
+        public void SetFree()
+        {
+            _moverToTarget.Stop();
+            Free = true;
         }
 
         public void SetHome(Transform home)
@@ -51,27 +45,24 @@ namespace Tasks.Collecting_Bots.Scripts
         private void GoHome()
         {
             SetTarget(_home);
-            _goingHome = true;
         }
 
-        public void SetTarget(Resource target)
-        {
-            _resource = target;
-            _moverToTarget.SetTarget(target.transform);
-            Free = false;
-        }
-        
-        public void SetTarget(Transform target)
+        private void SetTarget(Transform target)
         {
             _moverToTarget.SetTarget(target);
             Free = false;
         }
 
-        public void SetFree()
+        private void TryCollectResource(Component other)
         {
-            _moverToTarget.Stop();
-            _hasResource = false;
-            Free = true;
+            if (other.TryGetComponent(out Resource resource))
+            {
+                if (resource == _resource)
+                {
+                    _resource.transform.parent = gameObject.transform;
+                    GoHome();
+                }
+            }
         }
     }
 }

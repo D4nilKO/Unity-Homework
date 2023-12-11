@@ -351,17 +351,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e7b6a0f07249f8a0fd21f60d65b16e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collectingBots: []
-  _allResources: []
+  _homeArea: {x: 8.05, y: 2.29, z: 7.72}
+  _collectionArea: {x: 44.6, y: 2.94, z: 24.4}
   _resourceLayer:
     serializedVersion: 2
     m_Bits: 64
   _botsLayer:
     serializedVersion: 2
     m_Bits: 128
-  _homeArea: {x: 8.05, y: 2.29, z: 7.72}
-  _collectionArea: {x: 44.6, y: 2.94, z: 24.4}
-  _timeToScanResources: 1.1
+  _timeBetweenBaseTicks: 0.5
   _ironCount: 0
   _woodCount: 0
   _stoneCount: 0

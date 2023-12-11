@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,21 +7,21 @@ namespace Tasks.Collecting_Bots.Scripts
 {
     public class BotsBase : MonoBehaviour
     {
-        [SerializeField] private List<CollectingBot> _collectingBots = new();
-        [SerializeField] private List<Resource> _allResources = new();
-
+        [SerializeField] private Vector3 _homeArea;
+        [SerializeField] private Vector3 _collectionArea;
+        
         [SerializeField] private LayerMask _resourceLayer;
         [SerializeField] private LayerMask _botsLayer;
 
-        [SerializeField] private Vector3 _homeArea;
-        [SerializeField] private Vector3 _collectionArea;
-
-        [SerializeField] [Min(0.1f)] private float _timeToScanResources = 0.1f;
+        [SerializeField] [Min(0.1f)] private float _timeBetweenBaseTicks = 0.5f;
 
         [SerializeField] private int _ironCount;
         [SerializeField] private int _woodCount;
         [SerializeField] private int _stoneCount;
 
+        private List<CollectingBot> _collectingBots = new();
+        private List<Resource> _allResources = new();
+        
         private int _maxResourcesInScan = 10;
 
         private void Start()
@@ -32,9 +31,18 @@ namespace Tasks.Collecting_Bots.Scripts
             StartCoroutine(Work());
         }
 
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(transform.position, _homeArea);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireCube(transform.position, _collectionArea);
+        }
+
         private IEnumerator Work()
         {
-            WaitForSeconds waitTime = new(_timeToScanResources);
+            WaitForSeconds waitTime = new(_timeBetweenBaseTicks);
 
             while (true)
             {
@@ -86,15 +94,15 @@ namespace Tasks.Collecting_Bots.Scripts
                 switch (resource.GetResourceType())
                 {
                     case ResourceMaterial.Iron:
-                        _ironCount++;
+                        _ironCount+= resource.GetAmount();
                         break;
                     
                     case ResourceMaterial.Wood:
-                        _woodCount++;
+                        _woodCount+= resource.GetAmount();
                         break;
                     
                     case ResourceMaterial.Stone:
-                        _stoneCount++;
+                        _stoneCount+= resource.GetAmount();
                         break;
                     
                     default:
@@ -140,15 +148,6 @@ namespace Tasks.Collecting_Bots.Scripts
             resource = _allResources.FirstOrDefault(resource => resource.HasBot == false);
 
             return resource != null;
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(transform.position, _homeArea);
-
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireCube(transform.position, _collectionArea);
         }
     }
 }
