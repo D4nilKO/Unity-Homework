@@ -5,12 +5,17 @@ namespace Tasks.Collecting_Bots.Scripts
     public class Resource : MonoBehaviour
     {
         [SerializeField] private ResourceMaterial _resourceMaterial;
-        [SerializeField][Min(1)] private int _amount;
-        [SerializeField] private bool _collected;
+        [SerializeField] [Min(1)] private int _amount = 1;
+        public bool HasBot { get; private set; }
 
-        public void SetCollected()
+        public void SetBusy()
         {
-            _collected = true;
+            HasBot = true;
+        }
+
+        public ResourceMaterial GetResourceType()
+        {
+            return _resourceMaterial;
         }
     }
 }

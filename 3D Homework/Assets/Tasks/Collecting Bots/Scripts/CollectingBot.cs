@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Tasks.Collecting_Bots.Scripts
 {
@@ -7,8 +6,9 @@ namespace Tasks.Collecting_Bots.Scripts
     public class CollectingBot : MonoBehaviour
     {
         [SerializeField] private Transform _home;
-        
         [SerializeField] private Resource _resource;
+        
+        public bool _isReached;
         
         private bool _goingHome;
         private bool _hasResource;
@@ -20,22 +20,25 @@ namespace Tasks.Collecting_Bots.Scripts
         private void Start()
         {
             _moverToTarget = GetComponent<MoverToTarget>();
+            Free = true;
         }
 
         private void OnTriggerEnter(Collider other)
         {
             TryCollectResource(other);
-            
         }
         
         private void TryCollectResource(Component other)
         {
             if (other.TryGetComponent(out Resource resource) && _hasResource == false)
             {
-                _resource = resource;
-                _resource.transform.parent = gameObject.transform;
-                _resource.SetCollected();
-                _hasResource = true;
+                if (resource == _resource)
+                {
+                    _resource.transform.parent = gameObject.transform;
+                    _hasResource = true;
+                
+                    GoHome();
+                }
             }
         }
 
@@ -44,24 +47,31 @@ namespace Tasks.Collecting_Bots.Scripts
             _home = home;
             transform.parent = home;
         }
-        
-        private void DropResource()
-        {
-            _resource.transform.position = Vector3.zero;
-            _resource.transform.parent = _home;
-            _hasResource = false;
-        }
 
-        public void GoHome()
+        private void GoHome()
         {
             SetTarget(_home);
             _goingHome = true;
         }
 
-        private void SetTarget(Transform target)
+        public void SetTarget(Resource target)
+        {
+            _resource = target;
+            _moverToTarget.SetTarget(target.transform);
+            Free = false;
+        }
+        
+        public void SetTarget(Transform target)
         {
             _moverToTarget.SetTarget(target);
             Free = false;
+        }
+
+        public void SetFree()
+        {
+            _moverToTarget.Stop();
+            _hasResource = false;
+            Free = true;
         }
     }
 }
