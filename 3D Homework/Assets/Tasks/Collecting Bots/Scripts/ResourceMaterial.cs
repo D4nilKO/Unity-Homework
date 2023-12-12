@@ -3,7 +3,6 @@
     public enum ResourceMaterial
     {
         Iron,
-        Wood,
-        Stone
+        Wood
     }
 }

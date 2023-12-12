@@ -10,12 +10,28 @@ namespace Tasks.Collecting_Bots.Scripts
         
         private MoverToTarget _moverToTarget;
         
-        public bool Free { get; private set; }
+        public bool IsFree { get; private set; }
 
         private void Start()
         {
             _moverToTarget = GetComponent<MoverToTarget>();
-            Free = true;
+            
+            SetHome(transform.parent);
+            
+            IsFree = true;
+        }
+
+        private void Update()
+        {
+            IdlenessСheck();
+        }
+
+        private void IdlenessСheck()
+        {
+            if ((IsFree == false) && (_resource == null))
+            {
+                SetFree();
+            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -27,13 +43,13 @@ namespace Tasks.Collecting_Bots.Scripts
         {
             _resource = target;
             _moverToTarget.SetTarget(target.transform);
-            Free = false;
+            IsFree = false;
         }
 
         public void SetFree()
         {
             _moverToTarget.Stop();
-            Free = true;
+            IsFree = true;
         }
 
         public void SetHome(Transform home)
@@ -50,7 +66,7 @@ namespace Tasks.Collecting_Bots.Scripts
         private void SetTarget(Transform target)
         {
             _moverToTarget.SetTarget(target);
-            Free = false;
+            IsFree = false;
         }
 
         private void TryCollectResource(Component other)

@@ -1,43 +1,51 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Tasks.Collecting_Bots.Scripts
 {
+    [RequireComponent(typeof(BaseScanner))]
     public class BotsBase : MonoBehaviour
     {
-        [SerializeField] private Vector3 _homeArea;
-        [SerializeField] private Vector3 _collectionArea;
-        
-        [SerializeField] private LayerMask _resourceLayer;
-        [SerializeField] private LayerMask _botsLayer;
+        [SerializeField] private Transform _resourcesParent;
+
+        [SerializeField] private List<CollectingBot> _collectingBots = new();
 
         [SerializeField] [Min(0.1f)] private float _timeBetweenBaseTicks = 0.5f;
 
-        [SerializeField] private int _ironCount;
-        [SerializeField] private int _woodCount;
-        [SerializeField] private int _stoneCount;
+        private List<Resource> _freeResources = new();
+        private List<Resource> _busyResources = new();
 
-        private List<CollectingBot> _collectingBots = new();
-        private List<Resource> _allResources = new();
-        
-        private int _maxResourcesInScan = 10;
+        private Dictionary<ResourceMaterial, int> _resourcesValues = new();
+
+        private BaseScanner _scanner;
+
+        public IReadOnlyList<Resource> FreeResources => _freeResources.ToList();
+        public IReadOnlyList<Resource> BusyResources => _busyResources.ToList();
 
         private void Start()
         {
-            FindMyBots();
-            CollectResourcesOnBase();
+            _scanner = GetComponent<BaseScanner>();
+            
+            SetStartValuesForResources();
+            CollectResourcesInHome();
+
             StartCoroutine(Work());
         }
 
-        private void OnDrawGizmos()
+        public void AddResourceValue(Resource resource)
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(transform.position, _homeArea);
+            _resourcesValues[resource.ResourceType] += resource.Amount;
+        }
 
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireCube(transform.position, _collectionArea);
+        private void SetStartValuesForResources()
+        {
+            foreach (ResourceMaterial resourceMaterial in Enum.GetValues(typeof(ResourceMaterial)))
+            {
+                _resourcesValues.Add(resourceMaterial, 0);
+            }
         }
 
         private IEnumerator Work()
@@ -48,38 +56,28 @@ namespace Tasks.Collecting_Bots.Scripts
             {
                 yield return waitTime;
 
-                CollectResourcesOnBase();
-                FindFreeResources();
-                SetWorkForBot();
+                CollectResourcesInHome();
+                AddFreeResources();
+                SetWorkForAllBots();
             }
         }
 
-        private void FindFreeResources()
+        private void AddFreeResources()
         {
-            Collider[] results = new Collider[_maxResourcesInScan];
-            int size = Physics.OverlapBoxNonAlloc(transform.position, _collectionArea/2, results, Quaternion.identity,
-                _resourceLayer);
+            List<Resource> freeResources = _scanner.FindFreeResources();
 
-            for (int i = 0; i < size; i++)
+            foreach (Resource freeResource in freeResources)
             {
-                Collider resourceCollider = results[i];
-                Resource resource = resourceCollider.GetComponent<Resource>();
-
-                if ((resource.HasBot == false) && (_allResources.Contains(resource) == false))
-                {
-                    _allResources.Add(resource);
-                }
+                _freeResources.Add(freeResource);
             }
         }
 
-        private void CollectResourcesOnBase()
+        private void CollectResourcesInHome()
         {
-            Collider[] results = Physics.OverlapBox(transform.position, _homeArea/2, Quaternion.identity, _resourceLayer);
+            List<Resource> resourcesToCollect = _scanner.FindResourcesToCollectInHomeArea();
 
-            foreach (Collider resourceCollider in results)
+            foreach (Resource resource in resourcesToCollect)
             {
-                Resource resource = resourceCollider.GetComponent<Resource>();
-
                 if (resource.transform.parent != null)
                 {
                     GameObject parent = resource.transform.parent.gameObject;
@@ -90,27 +88,26 @@ namespace Tasks.Collecting_Bots.Scripts
                     }
                 }
 
-                switch (resource.GetResourceType())
-                {
-                    case ResourceMaterial.Iron:
-                        _ironCount+= resource.GetAmount();
-                        break;
-                    
-                    case ResourceMaterial.Wood:
-                        _woodCount+= resource.GetAmount();
-                        break;
-                    
-                    case ResourceMaterial.Stone:
-                        _stoneCount+= resource.GetAmount();
-                        break;
-                    
-                    default:
-                        Debug.Log("Неожиданный ресурс...");
-                        break;
-                }
+                AddResourceValue(resource);
 
-                Destroy(resource.gameObject);
+                resource.transform.parent = _resourcesParent;
+                resource.gameObject.SetActive(false);
             }
+        }
+
+        private void SetWorkForAllBots()
+        {
+            int freeBotsCount = GetFreeBotsCount();
+
+            for (int i = 0; i < freeBotsCount; i++)
+            {
+                SetWorkForBot();
+            }
+        }
+
+        private int GetFreeBotsCount()
+        {
+            return _collectingBots.Count(bot => bot.IsFree);
         }
 
         private void SetWorkForBot()
@@ -118,33 +115,21 @@ namespace Tasks.Collecting_Bots.Scripts
             if (TryGetFreeBot(out CollectingBot freeBot) && TryGetFreeResource(out Resource freeResource))
             {
                 freeBot.SetTarget(freeResource);
-                freeResource.SetBusy();
-            }
-        }
-
-        private void FindMyBots()
-        {
-            Collider[] results = Physics.OverlapBox(transform.position, _collectionArea/2, Quaternion.identity, _botsLayer);
-
-            foreach (Collider botCollider in results)
-            {
-                CollectingBot collectingBot = botCollider.GetComponent<CollectingBot>();
-
-                _collectingBots.Add(collectingBot);
-                collectingBot.SetHome(transform);
+                _busyResources.Add(freeResource);
+                _freeResources.Remove(freeResource);
             }
         }
 
         private bool TryGetFreeBot(out CollectingBot freeBot)
         {
-            freeBot = _collectingBots.FirstOrDefault(bot => bot.Free);
+            freeBot = _collectingBots.FirstOrDefault(bot => bot.IsFree);
 
             return freeBot != null;
         }
 
         private bool TryGetFreeResource(out Resource resource)
         {
-            resource = _allResources.FirstOrDefault(resource => resource.HasBot == false);
+            resource = _freeResources.FirstOrDefault();
 
             return resource != null;
         }

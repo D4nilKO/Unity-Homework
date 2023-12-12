@@ -1,21 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Tasks.Collecting_Bots.Scripts
 {
     public class MoverToTarget : MonoBehaviour
     {
-        [SerializeField] [Range(1, 10)] private int _speed = 1;
-        private bool _canMoving;
+        [SerializeField] [Range(1, 10)] private int _speed = 5;
 
         private Transform _target;
-
-        private void Update()
-        {
-            if (_canMoving)
-            {
-                Move();
-            }
-        }
+        
+        private Coroutine _currentMoving;
 
         private void OnDrawGizmos()
         {
@@ -27,18 +21,32 @@ namespace Tasks.Collecting_Bots.Scripts
             }
         }
 
+        private IEnumerator Moving()
+        {
+            while (transform.position != _target.position)
+            {
+                Move();
+                yield return null;
+            }
+        }
+
         public void SetTarget(Transform target)
         {
-            _canMoving = true;
             _target = target;
-            
+
             transform.LookAt(target);
             transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y, 0, transform.rotation.w);
+            
+            Stop();
+            _currentMoving = StartCoroutine(Moving());
         }
 
         public void Stop()
         {
-            _canMoving = false;
+            if (_currentMoving != null)
+            {
+                StopCoroutine(_currentMoving);
+            }
         }
 
         private void Move()

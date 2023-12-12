@@ -4,10 +4,9 @@ using Random = UnityEngine.Random;
 
 namespace Tasks.Collecting_Bots.Scripts
 {
-    public class ResourceSpawner:MonoBehaviour
+    public class ResourceSpawner : MonoBehaviour
     {
         [SerializeField] private Resource _resource;
-        [SerializeField] private int _amount;
         [SerializeField] private float _spawnDelay;
         [SerializeField] private float _spawnRadius;
 
@@ -20,10 +19,10 @@ namespace Tasks.Collecting_Bots.Scripts
         {
             WaitForSeconds waitSpawn = new(_spawnDelay);
 
-            for (int i = 0; i < _amount; i++)
+            while (true)
             {
+                Instantiate(_resource, GetRandomPointForSpawn(), Quaternion.identity, transform);
                 yield return waitSpawn;
-                Instantiate(_resource, GetRandomPointForSpawn(), Quaternion.identity);
             }
         }
 
