@@ -30,22 +30,7 @@ namespace Tasks.Collecting_Bots.Scripts
             _scanner = GetComponent<BaseScanner>();
             
             SetStartValuesForResources();
-            CollectResourcesInHome();
-
             StartCoroutine(Work());
-        }
-
-        public void AddResourceValue(Resource resource)
-        {
-            _resourcesValues[resource.ResourceType] += resource.Amount;
-        }
-
-        private void SetStartValuesForResources()
-        {
-            foreach (ResourceMaterial resourceMaterial in Enum.GetValues(typeof(ResourceMaterial)))
-            {
-                _resourcesValues.Add(resourceMaterial, 0);
-            }
         }
 
         private IEnumerator Work()
@@ -59,6 +44,19 @@ namespace Tasks.Collecting_Bots.Scripts
                 CollectResourcesInHome();
                 AddFreeResources();
                 SetWorkForAllBots();
+            }
+        }
+
+        private void AddResourceValue(Resource resource)
+        {
+            _resourcesValues[resource.ResourceType] += resource.Amount;
+        }
+
+        private void SetStartValuesForResources()
+        {
+            foreach (ResourceMaterial resourceMaterial in Enum.GetValues(typeof(ResourceMaterial)))
+            {
+                _resourcesValues.Add(resourceMaterial, 0);
             }
         }
 

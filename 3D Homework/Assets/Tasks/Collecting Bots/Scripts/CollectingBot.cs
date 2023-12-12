@@ -26,19 +26,17 @@ namespace Tasks.Collecting_Bots.Scripts
             IdlenessСheck();
         }
 
-        private void IdlenessСheck()
-        {
-            if ((IsFree == false) && (_resource == null))
-            {
-                SetFree();
-            }
-        }
-
         private void OnTriggerEnter(Collider other)
         {
             TryCollectResource(other);
         }
-        
+
+        private void SetHome(Transform home)
+        {
+            _home = home;
+            transform.parent = home;
+        }
+
         public void SetTarget(Resource target)
         {
             _resource = target;
@@ -52,12 +50,6 @@ namespace Tasks.Collecting_Bots.Scripts
             IsFree = true;
         }
 
-        public void SetHome(Transform home)
-        {
-            _home = home;
-            transform.parent = home;
-        }
-
         private void GoHome()
         {
             SetTarget(_home);
@@ -67,6 +59,14 @@ namespace Tasks.Collecting_Bots.Scripts
         {
             _moverToTarget.SetTarget(target);
             IsFree = false;
+        }
+
+        private void IdlenessСheck()
+        {
+            if ((IsFree == false) && (_resource == null))
+            {
+                SetFree();
+            }
         }
 
         private void TryCollectResource(Component other)
