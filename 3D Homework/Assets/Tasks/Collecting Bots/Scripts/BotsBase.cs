@@ -50,6 +50,7 @@ namespace Tasks.Collecting_Bots.Scripts
         private void AddResourceValue(Resource resource)
         {
             _resourcesValues[resource.ResourceType] += resource.Amount;
+            Debug.Log($"У вас имеется: {resource.ResourceType} -- {_resourcesValues.Values}");
         }
 
         private void SetStartValuesForResources()
@@ -76,21 +77,26 @@ namespace Tasks.Collecting_Bots.Scripts
 
             foreach (Resource resource in resourcesToCollect)
             {
-                if (resource.transform.parent != null)
-                {
-                    GameObject parent = resource.transform.parent.gameObject;
-
-                    if (parent.TryGetComponent(out CollectingBot bot))
-                    {
-                        bot.SetFree();
-                    }
-                }
-
-                AddResourceValue(resource);
-
-                resource.transform.parent = _resourcesParent;
-                resource.gameObject.SetActive(false);
+                CollectResource(resource);
             }
+        }
+        
+        private void CollectResource(Resource resource)
+        {
+            if (resource.transform.parent != null)
+            {
+                GameObject parent = resource.transform.parent.gameObject;
+
+                if (parent.TryGetComponent(out CollectingBot bot))
+                {
+                    bot.SetFree();
+                }
+            }
+
+            AddResourceValue(resource);
+
+            resource.transform.parent = _resourcesParent;
+            resource.gameObject.SetActive(false);
         }
 
         private void SetWorkForAllBots()
