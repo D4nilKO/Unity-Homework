@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Tasks.Collecting_Bots.Scripts
@@ -10,19 +11,8 @@ namespace Tasks.Collecting_Bots.Scripts
         private Transform _target;
 
         private Coroutine _currentMoving;
-
-        public float DistanceToTarget
-        {
-            get
-            {
-                if (_target != null)
-                {
-                    return Vector3.Distance(transform.position, _target.position);
-                }
-
-                return 1;
-            }
-        }
+        
+        public event Action OnTargetReached;
 
         private void OnDestroy()
         {
@@ -65,6 +55,8 @@ namespace Tasks.Collecting_Bots.Scripts
                 Move();
                 yield return null;
             }
+            
+            OnTargetReached?.Invoke();
         }
 
         private void Move()

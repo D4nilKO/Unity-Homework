@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Tasks.Collecting_Bots.Scripts
 {
@@ -13,20 +14,20 @@ namespace Tasks.Collecting_Bots.Scripts
 
         public bool IsFree { get; private set; }
 
-        private bool IsReadyToGiveResource =>
-            _moverToTarget.DistanceToTarget == 0 && IsFree == false;
-
         private void Start()
         {
             _moverToTarget = GetComponent<MoverToTarget>();
+            _moverToTarget.OnTargetReached += GiveResource;
             _home = transform.parent;
+            
             _base = _home.GetComponent<BotsBase>();
+            
             IsFree = true;
         }
 
-        private void Update()
+        private void OnDestroy()
         {
-            TryToGiveResource();
+            _moverToTarget.OnTargetReached -= GiveResource;
         }
 
         public void SetTarget(Resource target)
@@ -41,13 +42,10 @@ namespace Tasks.Collecting_Bots.Scripts
             TryCollectResource(other);
         }
 
-        private void TryToGiveResource()
+        private void GiveResource()
         {
-            if (IsReadyToGiveResource)
-            {
-                _base.PickUpResource(_resource);
-                SetFree();
-            }
+            _base.PickUpResource(_resource);
+            SetFree();
         }
 
         private void SetFree()
