@@ -11,6 +11,11 @@ namespace Tasks.Collecting_Bots.Scripts
         
         private Coroutine _currentMoving;
 
+        private void OnDestroy()
+        {
+            StopCoroutine(_currentMoving);
+        }
+
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.blue;
@@ -18,15 +23,6 @@ namespace Tasks.Collecting_Bots.Scripts
             if (_target != null)
             {
                 Gizmos.DrawLine(transform.position, _target.position);
-            }
-        }
-
-        private IEnumerator Moving()
-        {
-            while (transform.position != _target.position)
-            {
-                Move();
-                yield return null;
             }
         }
 
@@ -46,6 +42,15 @@ namespace Tasks.Collecting_Bots.Scripts
             if (_currentMoving != null)
             {
                 StopCoroutine(_currentMoving);
+            }
+        }
+
+        private IEnumerator Moving()
+        {
+            while (transform.position != _target.position)
+            {
+                Move();
+                yield return null;
             }
         }
 

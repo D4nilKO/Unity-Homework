@@ -10,9 +10,22 @@ namespace Tasks.Collecting_Bots.Scripts
         [SerializeField] private float _spawnDelay;
         [SerializeField] private float _spawnRadius;
 
+        private Coroutine _currentSpawn;
+
         private void Start()
         {
-            StartCoroutine(Spawn());
+            _currentSpawn = StartCoroutine(Spawn());
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(transform.position, _spawnRadius);
+        }
+
+        private void OnDestroy()
+        {
+            StopCoroutine(_currentSpawn);
         }
 
         private IEnumerator Spawn()
@@ -34,12 +47,6 @@ namespace Tasks.Collecting_Bots.Scripts
         private static Vector3 VectorAddition(Vector3 vector3, Vector2 vector2)
         {
             return new Vector3(vector3.x + vector2.x, vector3.y, vector3.z + vector2.y);
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(transform.position, _spawnRadius);
         }
     }
 }

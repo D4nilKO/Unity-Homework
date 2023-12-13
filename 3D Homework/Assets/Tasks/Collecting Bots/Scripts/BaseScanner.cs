@@ -4,15 +4,12 @@ using UnityEngine;
 
 namespace Tasks.Collecting_Bots.Scripts
 {
-    [RequireComponent(typeof(BotsBase))]
     public class BaseScanner : MonoBehaviour
     {
         [SerializeField] private Vector3 _homeArea;
         [SerializeField] private Vector3 _collectionArea;
 
         [SerializeField] private LayerMask _resourceLayer;
-
-        private BotsBase _botsBase;
 
         private int _maxResourcesInScan = 10;
 
@@ -25,41 +22,21 @@ namespace Tasks.Collecting_Bots.Scripts
             Gizmos.DrawWireCube(transform.position, _collectionArea);
         }
 
-        private void Start()
+        public List<Resource> FindResourcesInCollectionArea()
         {
-            _botsBase = GetComponent<BotsBase>();
+            return FindResources(_collectionArea);
         }
 
-        public List<Resource> FindFreeResources()
+        public List<Resource> FindResourcesToCollectInHome()
         {
-            Collider[] allResources = new Collider[_maxResourcesInScan];
-
-            int size = Physics.OverlapBoxNonAlloc(transform.position, _collectionArea / 2, allResources,
-                Quaternion.identity,
-                _resourceLayer);
-
-            List<Resource> freeResources = new();
-
-            for (int i = 0; i < size; i++)
-            {
-                Collider resourceCollider = allResources[i];
-                Resource resource = resourceCollider.GetComponent<Resource>();
-
-                if ((_botsBase.FreeResources.Contains(resource) == false) &&
-                    (_botsBase.BusyResources.Contains(resource) == false))
-                {
-                    freeResources.Add(resource);
-                }
-            }
-
-            return freeResources;
+            return FindResources(_homeArea);
         }
 
-        public List<Resource> FindResourcesToCollectInHomeArea()
+        private List<Resource> FindResources(Vector3 scanArea)
         {
             Collider[] results = new Collider[_maxResourcesInScan];
 
-            int size = Physics.OverlapBoxNonAlloc(transform.position, _homeArea / 2, results, Quaternion.identity,
+            int size = Physics.OverlapBoxNonAlloc(transform.position, scanArea / 2, results, Quaternion.identity,
                 _resourceLayer);
 
             return results.Select(resource => resource.GetComponent<Resource>()).Take(size).ToList();

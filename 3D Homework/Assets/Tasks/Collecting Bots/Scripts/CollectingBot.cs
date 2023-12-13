@@ -5,36 +5,23 @@ namespace Tasks.Collecting_Bots.Scripts
     [RequireComponent(typeof(MoverToTarget))]
     public class CollectingBot : MonoBehaviour
     {
-        private Transform _home;
-        private Resource _resource;
-        
+        [SerializeField] private Transform _home;
+        [SerializeField] private Resource _resource;
+
         private MoverToTarget _moverToTarget;
-        
+
         public bool IsFree { get; private set; }
 
         private void Start()
         {
             _moverToTarget = GetComponent<MoverToTarget>();
-            
-            SetHome(transform.parent);
-            
+            _home = transform.parent;
             IsFree = true;
-        }
-
-        private void Update()
-        {
-            IdlenessСheck();
         }
 
         private void OnTriggerEnter(Collider other)
         {
             TryCollectResource(other);
-        }
-
-        private void SetHome(Transform home)
-        {
-            _home = home;
-            transform.parent = home;
         }
 
         public void SetTarget(Resource target)
@@ -52,21 +39,7 @@ namespace Tasks.Collecting_Bots.Scripts
 
         private void GoHome()
         {
-            SetTarget(_home);
-        }
-
-        private void SetTarget(Transform target)
-        {
-            _moverToTarget.SetTarget(target);
-            IsFree = false;
-        }
-
-        private void IdlenessСheck()
-        {
-            if ((IsFree == false) && (_resource == null))
-            {
-                SetFree();
-            }
+            _moverToTarget.SetTarget(_home);
         }
 
         private void TryCollectResource(Component other)
