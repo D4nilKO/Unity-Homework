@@ -8,12 +8,25 @@ namespace Tasks.Collecting_Bots.Scripts
         [SerializeField] [Range(1, 10)] private int _speed = 5;
 
         private Transform _target;
-        
+
         private Coroutine _currentMoving;
+
+        public float DistanceToTarget
+        {
+            get
+            {
+                if (_target != null)
+                {
+                    return Vector3.Distance(transform.position, _target.position);
+                }
+
+                return 1;
+            }
+        }
 
         private void OnDestroy()
         {
-            StopCoroutine(_currentMoving);
+            Stop();
         }
 
         private void OnDrawGizmos()
@@ -30,9 +43,9 @@ namespace Tasks.Collecting_Bots.Scripts
         {
             _target = target;
 
-            transform.LookAt(target);
-            transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y, 0, transform.rotation.w);
-            
+            transform.LookAt(_target);
+            transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+
             Stop();
             _currentMoving = StartCoroutine(Moving());
         }

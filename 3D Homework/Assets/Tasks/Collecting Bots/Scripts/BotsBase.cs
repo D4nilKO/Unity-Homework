@@ -14,8 +14,8 @@ namespace Tasks.Collecting_Bots.Scripts
 
         [SerializeField] [Min(0.1f)] private float _timeBetweenBaseTicks = 0.5f;
 
-        [SerializeField] private ResourceMaterial _resourceToCreateBot;
         [SerializeField] private int _botCoast = 3;
+        [SerializeField] private ResourceMaterial _resourceToCreateBot;
 
         private List<Resource> _freeResources = new();
         private List<Resource> _busyResources = new();
@@ -42,17 +42,24 @@ namespace Tasks.Collecting_Bots.Scripts
 
             while (true)
             {
-                yield return waitTime;
-
-                CollectResourcesInHome();
                 AddFreeResources();
                 SetWorkForAllBots();
+                
+                yield return waitTime;
             }
         }
 
         private void OnDestroy()
         {
             StopCoroutine(_currentWork);
+        }
+
+        public void PickUpResource(Resource resource)
+        {
+            AddResourceValue(resource);
+
+            resource.transform.parent = _resourcesParent;
+            resource.gameObject.SetActive(false);
         }
 
         private bool CheckAvailabilityInLists(Resource resource)
@@ -116,34 +123,6 @@ namespace Tasks.Collecting_Bots.Scripts
             {
                 _freeResources.Add(resource);
             }
-        }
-
-        private void CollectResourcesInHome()
-        {
-            List<Resource> resourcesToCollect = _scanner.FindResourcesToCollectInHome();
-
-            foreach (Resource resource in resourcesToCollect)
-            {
-                CollectResource(resource);
-            }
-        }
-
-        private void CollectResource(Resource resource)
-        {
-            if (resource.transform.parent != null)
-            {
-                GameObject parent = resource.transform.parent.gameObject;
-
-                if (parent.TryGetComponent(out CollectingBot bot))
-                {
-                    bot.SetFree();
-                }
-            }
-
-            AddResourceValue(resource);
-
-            resource.transform.parent = _resourcesParent;
-            resource.gameObject.SetActive(false);
         }
 
         private void SetWorkForAllBots()

@@ -25,7 +25,15 @@ namespace Tasks.Collecting_Bots.Scripts
 
         private void OnDestroy()
         {
-            StopCoroutine(_currentSpawn);
+            Stop();
+        }
+
+        private void Stop()
+        {
+            if (_currentSpawn!= null)
+            {
+                StopCoroutine(_currentSpawn);
+            }
         }
 
         private IEnumerator Spawn()

@@ -12,10 +12,6 @@ namespace Tasks.Collecting_Bots.Scripts
 
         private float _centerSphereRadius = 0.5f;
 
-        private void Start()
-        {
-        }
-
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.black;

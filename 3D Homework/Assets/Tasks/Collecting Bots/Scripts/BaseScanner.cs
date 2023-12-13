@@ -27,11 +27,6 @@ namespace Tasks.Collecting_Bots.Scripts
             return FindResources(_collectionArea);
         }
 
-        public List<Resource> FindResourcesToCollectInHome()
-        {
-            return FindResources(_homeArea);
-        }
-
         private List<Resource> FindResources(Vector3 scanArea)
         {
             Collider[] results = new Collider[_maxResourcesInScan];
