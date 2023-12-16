@@ -6,7 +6,6 @@ namespace Tasks.Collecting_Bots.Scripts
 {
     public class BaseScanner : MonoBehaviour
     {
-        [SerializeField] private Vector3 _homeArea;
         [SerializeField] private Vector3 _collectionArea;
 
         [SerializeField] private LayerMask _resourceLayer;
@@ -15,9 +14,6 @@ namespace Tasks.Collecting_Bots.Scripts
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(transform.position, _homeArea);
-
             Gizmos.color = Color.blue;
             Gizmos.DrawWireCube(transform.position, _collectionArea);
         }
