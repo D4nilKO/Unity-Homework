@@ -4,9 +4,24 @@ using UnityEngine;
 
 namespace Tasks.Collecting_Bots_and_Colonization.Scripts
 {
-    public class BaseWallet: MonoBehaviour
+    public class BaseWallet : MonoBehaviour
     {
-        private Dictionary<ResourceMaterial, int> _resourcesValues = new();
+        private readonly IDictionary<ResourceMaterial, int> _resourcesValues = new Dictionary <ResourceMaterial, int>();
+
+        public int this[ResourceMaterial key]
+        {
+            get => _resourcesValues[key];
+
+            set
+            {
+                _resourcesValues[key] = value;
+                
+                ShowResource(key);
+            }
+        }
+
+        private int _resourceValueNeededToAction;
+        private event Action OnResourceValueCollectedToAction;
 
         private void Awake()
         {
@@ -30,6 +45,14 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
         {
             _resourcesValues[resource.ResourceType] += resource.Amount;
             ShowResource(resource);
+        }
+
+        private void ShowAllResources()
+        {
+            foreach (ResourceMaterial resourceMaterial in Enum.GetValues(typeof(ResourceMaterial)))
+            {
+                ShowResource(resourceMaterial);
+            }
         }
 
         private void ShowResource(Resource resource)

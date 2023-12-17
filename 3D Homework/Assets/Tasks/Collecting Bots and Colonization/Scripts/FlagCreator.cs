@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Tasks.Collecting_Bots_and_Colonization.Scripts
@@ -14,8 +15,10 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
         private Coroutine _currentSettingFlag;
 
         private Camera _mainCamera;
+        
+        public event Action OnFlagPlaced;
 
-        public bool IsFlagSet;
+        private bool _isFlagSet;
 
         private void Awake()
         {
@@ -37,10 +40,12 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
         {
             _isPlacingFlag = true;
 
-            if (IsFlagSet == false)
+            if (_isFlagSet == false)
             {
                 Flag = Instantiate(_flagPrefab, GetMousePoint(), Quaternion.identity);
-                IsFlagSet = true;
+                
+                _isFlagSet = true;
+                OnFlagPlaced?.Invoke();
             }
 
             while (_isPlacingFlag)

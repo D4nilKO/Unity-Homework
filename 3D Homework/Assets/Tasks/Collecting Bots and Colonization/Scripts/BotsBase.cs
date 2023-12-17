@@ -23,7 +23,6 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
         private delegate bool PriorityCommand();
 
         private PriorityCommand _firstPriorityCommand;
-        private PriorityCommand _secondPriorityCommand;
 
         private bool _isBaseBuilt;
         private bool _isSwappedPriority;
@@ -46,7 +45,7 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
             _flagCreator = GetComponent<FlagCreator>();
 
             InitializationDelegates();
-            
+
             _currentWork = StartCoroutine(Work());
         }
 
@@ -63,40 +62,17 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
             {
                 AddFreeResources();
 
-                if (_firstPriorityCommand() == false)
-                {
-                    Debug.Log("second");
-                    _secondPriorityCommand();
-                }
-                
-                // Тут надо добавить условие смены приоритета и смены делегатов
-                
-                if (_flagCreator.IsFlagSet && _isBaseBuilt == false)
-                {
-                    if (_isSwappedPriority == false)
-                    {
-                        SwapPriority();
-                    }
-                }
+                _firstPriorityCommand.Invoke();
 
                 SetWorkForAllBots();
 
                 yield return waitTime;
             }
         }
-        
+
         private void InitializationDelegates()
         {
-            _firstPriorityCommand = () => TryCreateBase(_flagCreator.Flag);
-            _secondPriorityCommand = TryCreateBot;
-        }
-
-        private void SwapPriority()
-        {
-            Debug.LogWarning("Swapped priority");
-            _isSwappedPriority = true;
-            
-            (_firstPriorityCommand, _secondPriorityCommand) = (_secondPriorityCommand, _firstPriorityCommand);
+            _firstPriorityCommand = TryCreateBot;
         }
 
         private bool TryCreateBase(GameObject flag)
@@ -111,6 +87,10 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
                     _isBaseBuilt = true;
                     return true;
                 }
+            }
+            else
+            {
+                TryCreateBot();
             }
 
             return false;
@@ -131,6 +111,8 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
 
         private bool TryCreateBot()
         {
+            Debug.LogWarning("Пытаюсь создать бота");
+
             if (_wallet.TrySpendResourceValue(_resourceToCreateBot, _botCoast))
             {
                 _garage.CreateBot();
