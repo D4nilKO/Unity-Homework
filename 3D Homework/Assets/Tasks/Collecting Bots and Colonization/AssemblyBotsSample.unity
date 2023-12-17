@@ -423,6 +423,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5015209683011743060, guid: 9e56b2ac4c4b1ac41a673e2d0265461b, type: 3}
+      propertyPath: _spawnDelay
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 6707519109809908259, guid: 9e56b2ac4c4b1ac41a673e2d0265461b, type: 3}
       propertyPath: _levelGround
       value: 

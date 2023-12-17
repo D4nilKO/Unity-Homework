@@ -20,7 +20,13 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
         [SerializeField] private ResourceMaterial _resourceToCreateBot = ResourceMaterial.Iron;
         [SerializeField] private ResourceMaterial _resourceToCreateBase = ResourceMaterial.Iron;
 
-        private bool _isBaseBuilt = false;
+        private delegate bool PriorityCommand();
+
+        private PriorityCommand _firstPriorityCommand;
+        private PriorityCommand _secondPriorityCommand;
+
+        private bool _isBaseBuilt;
+        private bool _isSwappedPriority;
 
         private List<Resource> _freeResources = new();
         private List<Resource> _busyResources = new();
@@ -39,7 +45,14 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
             _wallet = GetComponent<BaseWallet>();
             _flagCreator = GetComponent<FlagCreator>();
 
+            InitializationDelegates();
+            
             _currentWork = StartCoroutine(Work());
+        }
+
+        private void OnDisable()
+        {
+            StopCoroutine(_currentWork);
         }
 
         private IEnumerator Work()
@@ -50,13 +63,20 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
             {
                 AddFreeResources();
 
-                if (_isBaseBuilt == false && _flagCreator.IsFlagSet)
+                if (_firstPriorityCommand() == false)
                 {
-                    TryCreateBase(_flagCreator.Flag);
+                    Debug.Log("second");
+                    _secondPriorityCommand();
                 }
-                else
+                
+                // Тут надо добавить условие смены приоритета и смены делегатов
+                
+                if (_flagCreator.IsFlagSet && _isBaseBuilt == false)
                 {
-                    TryCreateBot();
+                    if (_isSwappedPriority == false)
+                    {
+                        SwapPriority();
+                    }
                 }
 
                 SetWorkForAllBots();
@@ -64,10 +84,24 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
                 yield return waitTime;
             }
         }
-
-        private void TryCreateBase(GameObject flag)
+        
+        private void InitializationDelegates()
         {
-            if (_garage.FreeBotsCount > 0)
+            _firstPriorityCommand = () => TryCreateBase(_flagCreator.Flag);
+            _secondPriorityCommand = TryCreateBot;
+        }
+
+        private void SwapPriority()
+        {
+            Debug.LogWarning("Swapped priority");
+            _isSwappedPriority = true;
+            
+            (_firstPriorityCommand, _secondPriorityCommand) = (_secondPriorityCommand, _firstPriorityCommand);
+        }
+
+        private bool TryCreateBase(GameObject flag)
+        {
+            if (_garage.FreeBotsCount > 1)
             {
                 if (_wallet.TrySpendResourceValue(_resourceToCreateBase, _baseCoast))
                 {
@@ -75,13 +109,11 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
 
                     freeBot.ChangeModeToCreatingBase(flag);
                     _isBaseBuilt = true;
+                    return true;
                 }
             }
-        }
 
-        private void OnDestroy()
-        {
-            StopCoroutine(_currentWork);
+            return false;
         }
 
         public void PickUpResource(Resource resource)
@@ -97,12 +129,15 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
             return _freeResources.Contains(resource) || _busyResources.Contains(resource);
         }
 
-        private void TryCreateBot()
+        private bool TryCreateBot()
         {
             if (_wallet.TrySpendResourceValue(_resourceToCreateBot, _botCoast))
             {
                 _garage.CreateBot();
+                return true;
             }
+
+            return false;
         }
 
         private void AddFreeResources()
