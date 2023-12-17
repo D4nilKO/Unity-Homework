@@ -2,20 +2,22 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Tasks.Collecting_Bots.Scripts
+namespace Tasks.Collecting_Bots_and_Colonization.Scripts
 {
     public class BotsGarage : MonoBehaviour
     {
         [SerializeField] private CollectingBot _collectingBotPrefab;
-        [SerializeField] private Vector3 _centerPoint;
+        [SerializeField] private Vector3 _botSpawnPoint;
         [SerializeField] private List<CollectingBot> _collectingBots = new();
 
-        private float _centerSphereRadius = 0.5f;
+        private float _botSpawnPointRadius = 0.5f;
+        
+        public int FreeBotsCount => _collectingBots.Count(bot => bot.IsFree);
 
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.black;
-            Gizmos.DrawSphere(transform.position + _centerPoint, _centerSphereRadius);
+            Gizmos.DrawSphere(transform.position + _botSpawnPoint, _botSpawnPointRadius);
         }
 
         public bool TryGetFreeBot(out CollectingBot freeBot)
@@ -24,15 +26,20 @@ namespace Tasks.Collecting_Bots.Scripts
 
             return freeBot != null;
         }
-
-        public int GetFreeBotsCount()
+        
+        public void AddBot(CollectingBot bot)
         {
-            return _collectingBots.Count(bot => bot.IsFree);
+            _collectingBots.Add(bot);
+        }
+        
+        public void RemoveBot(CollectingBot bot)
+        {
+            _collectingBots.Remove(bot);
         }
 
         public void CreateBot()
         {
-            CollectingBot bot = Instantiate(_collectingBotPrefab, transform.position + _centerPoint,
+            CollectingBot bot = Instantiate(_collectingBotPrefab, transform.position + _botSpawnPoint,
                 Quaternion.identity, transform);
             _collectingBots.Add(bot);
         }

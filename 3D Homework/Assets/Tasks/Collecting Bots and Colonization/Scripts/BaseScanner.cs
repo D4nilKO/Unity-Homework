@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Tasks.Collecting_Bots.Scripts
+namespace Tasks.Collecting_Bots_and_Colonization.Scripts
 {
     public class BaseScanner : MonoBehaviour
     {

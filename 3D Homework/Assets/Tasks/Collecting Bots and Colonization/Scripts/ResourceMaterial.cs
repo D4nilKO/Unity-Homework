@@ -1,4 +1,4 @@
-﻿namespace Tasks.Collecting_Bots.Scripts
+﻿namespace Tasks.Collecting_Bots_and_Colonization.Scripts
 {
     public enum ResourceMaterial
     {

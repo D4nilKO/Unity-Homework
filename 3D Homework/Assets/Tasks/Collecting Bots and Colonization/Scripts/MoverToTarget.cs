@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Tasks.Collecting_Bots.Scripts
+namespace Tasks.Collecting_Bots_and_Colonization.Scripts
 {
     public class MoverToTarget : MonoBehaviour
     {

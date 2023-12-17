@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Tasks.Collecting_Bots.Scripts
+namespace Tasks.Collecting_Bots_and_Colonization.Scripts
 {
     [RequireComponent(typeof(BaseScanner))]
     [RequireComponent(typeof(BotsGarage))]
+    [RequireComponent(typeof(BaseWallet))]
     public class BotsBase : MonoBehaviour
     {
         [SerializeField] private Transform _resourcesParent;
@@ -15,24 +15,30 @@ namespace Tasks.Collecting_Bots.Scripts
         [SerializeField] [Min(0.1f)] private float _timeBetweenBaseTicks = 0.5f;
 
         [SerializeField] private int _botCoast = 3;
-        [SerializeField] private ResourceMaterial _resourceToCreateBot;
+        [SerializeField] private int _baseCoast = 6;
+
+        [SerializeField] private ResourceMaterial _resourceToCreateBot = ResourceMaterial.Iron;
+        [SerializeField] private ResourceMaterial _resourceToCreateBase = ResourceMaterial.Iron;
+
+        private bool _isBaseBuilt = false;
 
         private List<Resource> _freeResources = new();
         private List<Resource> _busyResources = new();
 
-        private Dictionary<ResourceMaterial, int> _resourcesValues = new();
+        private Coroutine _currentWork;
 
         private BaseScanner _scanner;
         private BotsGarage _garage;
-
-        private Coroutine _currentWork;
+        private BaseWallet _wallet;
+        private FlagCreator _flagCreator;
 
         private void Start()
         {
             _scanner = GetComponent<BaseScanner>();
             _garage = GetComponent<BotsGarage>();
+            _wallet = GetComponent<BaseWallet>();
+            _flagCreator = GetComponent<FlagCreator>();
 
-            SetStartValuesForResources();
             _currentWork = StartCoroutine(Work());
         }
 
@@ -43,9 +49,33 @@ namespace Tasks.Collecting_Bots.Scripts
             while (true)
             {
                 AddFreeResources();
+
+                if (_isBaseBuilt == false && _flagCreator.IsFlagSet)
+                {
+                    TryCreateBase(_flagCreator.Flag);
+                }
+                else
+                {
+                    TryCreateBot();
+                }
+
                 SetWorkForAllBots();
-                
+
                 yield return waitTime;
+            }
+        }
+
+        private void TryCreateBase(GameObject flag)
+        {
+            if (_garage.FreeBotsCount > 0)
+            {
+                if (_wallet.TrySpendResourceValue(_resourceToCreateBase, _baseCoast))
+                {
+                    _garage.TryGetFreeBot(out CollectingBot freeBot);
+
+                    freeBot.ChangeModeToCreatingBase(flag);
+                    _isBaseBuilt = true;
+                }
             }
         }
 
@@ -56,7 +86,7 @@ namespace Tasks.Collecting_Bots.Scripts
 
         public void PickUpResource(Resource resource)
         {
-            AddResourceValue(resource);
+            _wallet.AddResourceValue(resource);
 
             resource.transform.parent = _resourcesParent;
             resource.gameObject.SetActive(false);
@@ -67,51 +97,11 @@ namespace Tasks.Collecting_Bots.Scripts
             return _freeResources.Contains(resource) || _busyResources.Contains(resource);
         }
 
-        private bool TryCreateBot()
+        private void TryCreateBot()
         {
-            if (TrySpendResourceValue(_resourceToCreateBot, _botCoast))
+            if (_wallet.TrySpendResourceValue(_resourceToCreateBot, _botCoast))
             {
                 _garage.CreateBot();
-                return true;
-            }
-
-            return false;
-        }
-
-        private bool TrySpendResourceValue(ResourceMaterial resourceMaterial, int amount)
-        {
-            if (_resourcesValues[resourceMaterial] >= amount)
-            {
-                _resourcesValues[resourceMaterial] -= amount;
-                ShowResource(resourceMaterial);
-
-                return true;
-            }
-
-            return false;
-        }
-
-        private void AddResourceValue(Resource resource)
-        {
-            _resourcesValues[resource.ResourceType] += resource.Amount;
-            ShowResource(resource);
-        }
-
-        private void ShowResource(Resource resource)
-        {
-            Debug.Log($"У вас имеется: {resource.ResourceType} -- {_resourcesValues[resource.ResourceType]}");
-        }
-
-        private void ShowResource(ResourceMaterial resourceMaterial)
-        {
-            Debug.Log($"У вас имеется: {resourceMaterial} -- {_resourcesValues[resourceMaterial]}");
-        }
-
-        private void SetStartValuesForResources()
-        {
-            foreach (ResourceMaterial resourceMaterial in Enum.GetValues(typeof(ResourceMaterial)))
-            {
-                _resourcesValues.Add(resourceMaterial, 0);
             }
         }
 
@@ -127,7 +117,7 @@ namespace Tasks.Collecting_Bots.Scripts
 
         private void SetWorkForAllBots()
         {
-            int freeBotsCount = _garage.GetFreeBotsCount();
+            int freeBotsCount = _garage.FreeBotsCount;
 
             for (int i = 0; i < freeBotsCount; i++)
             {
