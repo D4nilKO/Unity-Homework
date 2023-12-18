@@ -6,18 +6,35 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
 {
     public class BaseWallet : MonoBehaviour
     {
-        private readonly IDictionary<ResourceMaterial, int> _resourcesValues = new Dictionary <ResourceMaterial, int>();
+        private Dictionary<ResourceMaterial, int> _resourcesValues = new();
 
-        public int this[ResourceMaterial key]
+        public void Set(ResourceMaterial key, int value)
         {
-            get => _resourcesValues[key];
-
-            set
+            if (_resourcesValues.ContainsKey(key))
             {
                 _resourcesValues[key] = value;
-                
-                ShowResource(key);
+
+                if (_resourceValueNeededToAction <= value)
+                {
+                    OnResourceValueCollectedToAction?.Invoke();
+                }
             }
+            else
+            {
+                _resourcesValues.Add(key, value);
+            }
+        }
+
+        public int Get(ResourceMaterial key)
+        {
+            int result = 0;
+
+            if (_resourcesValues.ContainsKey(key))
+            {
+                result = _resourcesValues[key];
+            }
+
+            return result;
         }
 
         private int _resourceValueNeededToAction;
