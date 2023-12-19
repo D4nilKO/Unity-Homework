@@ -13,6 +13,7 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
         private float _botSpawnPointRadius = 0.5f;
         
         public int FreeBotsCount => _collectingBots.Count(bot => bot.IsFree);
+        public int BotsCount => _collectingBots.Count;
 
         private void OnDrawGizmos()
         {

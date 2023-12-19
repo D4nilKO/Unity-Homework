@@ -20,8 +20,6 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
         [SerializeField] private ResourceMaterial _resourceToCreateBot = ResourceMaterial.Iron;
         [SerializeField] private ResourceMaterial _resourceToCreateBase = ResourceMaterial.Iron;
 
-        private bool _isBaseBuilt = false;
-
         private List<Resource> _freeResources = new();
         private List<Resource> _busyResources = new();
 
@@ -50,7 +48,7 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
             {
                 AddFreeResources();
 
-                if (_isBaseBuilt == false && _flagCreator.IsFlagSet)
+                if (_flagCreator.IsFlagSet)
                 {
                     TryCreateBase(_flagCreator.Flag);
                 }
@@ -67,15 +65,20 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
 
         private void TryCreateBase(GameObject flag)
         {
-            if (_garage.FreeBotsCount > 0)
-            {
-                if (_wallet.TrySpendResourceValue(_resourceToCreateBase, _baseCoast))
-                {
-                    _garage.TryGetFreeBot(out CollectingBot freeBot);
+            if (_garage.FreeBotsCount <= 0)
+                return;
 
-                    freeBot.ChangeModeToCreatingBase(flag);
-                    _isBaseBuilt = true;
-                }
+            if (_garage.BotsCount <= 1)
+            {
+                TryCreateBot();
+                return;
+            }
+
+            if (_wallet.TrySpendResourceValue(_resourceToCreateBase, _baseCoast))
+            {
+                _garage.TryGetFreeBot(out CollectingBot freeBot);
+
+                freeBot.ChangeModeToCreatingBase(flag);
             }
         }
 

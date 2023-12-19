@@ -42,6 +42,10 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
                 Flag = Instantiate(_flagPrefab, GetMousePoint(), Quaternion.identity);
                 IsFlagSet = true;
             }
+            else
+            {
+                Flag.SetActive(true);
+            }
 
             while (_isPlacingFlag)
             {

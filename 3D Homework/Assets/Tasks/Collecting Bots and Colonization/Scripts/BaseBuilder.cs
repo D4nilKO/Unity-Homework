@@ -41,12 +41,12 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
             _currentFlag = flag;
         }
 
-        public void BuildBase()
+        private void BuildBase()
         {
              _currentBase = Instantiate(_basePrefab, _currentFlag.transform.position, Quaternion.identity).GetComponentInChildren<BotsBase>();
             ConfigureBase(_currentBase);
             
-            Destroy(_currentFlag);
+            _currentFlag.SetActive(false);
             
             OnBaseBuilt?.Invoke();
         }
