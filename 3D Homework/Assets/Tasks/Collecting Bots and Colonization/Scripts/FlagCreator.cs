@@ -6,7 +6,8 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
     public class FlagCreator : MonoBehaviour
     {
         [SerializeField] private GameObject _flagPrefab;
-        [SerializeField] private GameObject _levelGround;
+        
+        private float _groundHeight;
 
         private bool _isPlacingFlag;
 
@@ -20,6 +21,7 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
         private void Awake()
         {
             _mainCamera = Camera.main;
+            _groundHeight = transform.localPosition.y;
         }
 
         private void OnMouseDown()
@@ -37,9 +39,11 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
         {
             _isPlacingFlag = true;
 
+            Vector3 newFlagPosition = GetGlobalPointOnPlane();
+
             if (IsFlagSet == false)
             {
-                Flag = Instantiate(_flagPrefab, GetMousePoint(), Quaternion.identity);
+                Flag = Instantiate(_flagPrefab, newFlagPosition, Quaternion.identity);
                 IsFlagSet = true;
             }
             else
@@ -51,8 +55,8 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
             {
                 yield return null;
 
-                Vector3 position = GetMousePoint();
-                Flag.transform.position = position;
+                newFlagPosition = GetGlobalPointOnPlane();
+                Flag.transform.position = newFlagPosition;
 
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -69,16 +73,13 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
             }
         }
 
-        private Vector3 GetMousePoint()
+        private Vector3 GetGlobalPointOnPlane()
         {
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out RaycastHit placeInfo))
-            {
-                return placeInfo.point;
-            }
-
-            return Vector3.zero;
+            return Physics.Raycast(ray, out RaycastHit placeInfo)
+                ? new Vector3(placeInfo.point.x, _groundHeight, placeInfo.point.z)
+                : Vector3.zero;
         }
     }
 }

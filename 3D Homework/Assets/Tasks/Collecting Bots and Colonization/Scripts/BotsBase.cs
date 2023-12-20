@@ -8,10 +8,11 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
     [RequireComponent(typeof(BaseScanner))]
     [RequireComponent(typeof(BotsGarage))]
     [RequireComponent(typeof(BaseWallet))]
+    [RequireComponent(typeof(FlagCreator))]
     public class BotsBase : MonoBehaviour
     {
         [SerializeField] private Transform _resourcesParent;
-
+        
         [SerializeField] [Min(0.1f)] private float _timeBetweenBaseTicks = 0.5f;
 
         [SerializeField] private int _botCoast = 3;
@@ -20,8 +21,9 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
         [SerializeField] private ResourceMaterial _resourceToCreateBot = ResourceMaterial.Iron;
         [SerializeField] private ResourceMaterial _resourceToCreateBase = ResourceMaterial.Iron;
 
+        [SerializeField] private ResourcesDatabase _resourcesDatabase;
+        
         private List<Resource> _freeResources = new();
-        private List<Resource> _busyResources = new();
 
         private Coroutine _currentWork;
 
@@ -82,9 +84,17 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
             }
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
-            StopCoroutine(_currentWork);
+            StopWork();
+        }
+
+        private void StopWork()
+        {
+            if (_currentWork != null)
+            {
+                StopCoroutine(_currentWork);
+            }
         }
 
         public void PickUpResource(Resource resource)
@@ -97,7 +107,7 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
 
         private bool CheckAvailabilityInLists(Resource resource)
         {
-            return _freeResources.Contains(resource) || _busyResources.Contains(resource);
+            return _freeResources.Contains(resource) || _resourcesDatabase.CheckResourceForReserve(resource);
         }
 
         private void TryCreateBot()
@@ -133,7 +143,7 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
             if (_garage.TryGetFreeBot(out CollectingBot freeBot) && TryGetFreeResource(out Resource freeResource))
             {
                 freeBot.SetTarget(freeResource);
-                _busyResources.Add(freeResource);
+                _resourcesDatabase.ReserveResource(freeResource);
                 _freeResources.Remove(freeResource);
             }
         }

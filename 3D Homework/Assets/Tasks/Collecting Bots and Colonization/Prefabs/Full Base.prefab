@@ -40,6 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6992832257797372658}
+  - component: {fileID: 6974111660824973605}
   m_Layer: 0
   m_Name: Full Base
   m_TagString: Untagged
@@ -65,6 +66,18 @@ Transform:
   - {fileID: 8145728740878916532}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6974111660824973605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8532104477685632578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 892f1cda0afc4cdcab686751326c6fb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1083488867077521009
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -119,7 +132,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5373016185652466469, guid: dc7134f787d74bc4f8b62619be2577c5, type: 3}
       propertyPath: _spawnDelay
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5373016185652466469, guid: dc7134f787d74bc4f8b62619be2577c5, type: 3}
       propertyPath: _spawnRadius
@@ -191,6 +204,10 @@ PrefabInstance:
       propertyPath: _resourcesParent
       value: 
       objectReference: {fileID: 8145728740878916532}
+    - target: {fileID: 2646738106553740267, guid: a8479f4b51ea73346afd319536277536, type: 3}
+      propertyPath: _resourcesDatabase
+      value: 
+      objectReference: {fileID: 6974111660824973605}
     - target: {fileID: 3754210806308758736, guid: a8479f4b51ea73346afd319536277536, type: 3}
       propertyPath: m_Name
       value: Bots Base
@@ -207,7 +224,8 @@ PrefabInstance:
       propertyPath: _collectingBots.Array.size
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8244692712684945957, guid: a8479f4b51ea73346afd319536277536, type: 3}
     m_RemovedGameObjects:
     - {fileID: 978348730472636661, guid: a8479f4b51ea73346afd319536277536, type: 3}
     m_AddedGameObjects: []
@@ -239,5 +257,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _flagPrefab: {fileID: 1515042512494934125, guid: 66cc427f62b57a340aba16505fef7933, type: 3}
-  _levelGround: {fileID: 0}
   IsFlagSet: 0
