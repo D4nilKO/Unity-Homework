@@ -16,6 +16,8 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
         [SerializeField]private GameObject _currentFlag;
         [SerializeField]private BotsBase _currentBase;
         
+        private ResourcesDatabase _resourcesDatabase;
+
         public event Action OnBaseBuilt;
 
         private void Awake()
@@ -35,7 +37,12 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
         {
             _moverToTarget.OnTargetReached -= BuildBase;
         }
-
+        
+        private void Init( ResourcesDatabase resourcesDatabase)
+        {
+            _resourcesDatabase = resourcesDatabase;
+        }
+        
         public void SetFlag(GameObject flag)
         {
             _currentFlag = flag;
@@ -44,16 +51,18 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
         private void BuildBase()
         {
              _currentBase = Instantiate(_basePrefab, _currentFlag.transform.position, Quaternion.identity).GetComponentInChildren<BotsBase>();
-            ConfigureBase(_currentBase);
+            ConfigureBase(_currentBase, _resourcesDatabase);
             
             _currentFlag.SetActive(false);
             
             OnBaseBuilt?.Invoke();
         }
 
-        private void ConfigureBase(BotsBase botsBase)
+        private void ConfigureBase(BotsBase botsBase, ResourcesDatabase resourcesDatabase)
         {
             transform.parent = botsBase.transform;
+
+            botsBase.Init(resourcesDatabase);
 
             botsBase.GetComponent<BotsGarage>().AddBot(_collectingBot);
 

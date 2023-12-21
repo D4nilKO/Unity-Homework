@@ -34,12 +34,7 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
 
         private void Start()
         {
-            _scanner = GetComponent<BaseScanner>();
-            _garage = GetComponent<BotsGarage>();
-            _wallet = GetComponent<BaseWallet>();
-            _flagCreator = GetComponent<FlagCreator>();
-
-            _currentWork = StartCoroutine(Work());
+            Init();
         }
 
         private IEnumerator Work()
@@ -87,6 +82,20 @@ namespace Tasks.Collecting_Bots_and_Colonization.Scripts
         private void OnDisable()
         {
             StopWork();
+        }
+
+        public void Init(ResourcesDatabase resourcesDatabase = null)
+        {
+            _scanner = GetComponent<BaseScanner>();
+            _garage = GetComponent<BotsGarage>();
+            _wallet = GetComponent<BaseWallet>();
+            _flagCreator = GetComponent<FlagCreator>();
+
+            _currentWork = StartCoroutine(Work());
+
+            if (resourcesDatabase == null)
+                return;
+            _resourcesDatabase = resourcesDatabase;
         }
 
         private void StopWork()
