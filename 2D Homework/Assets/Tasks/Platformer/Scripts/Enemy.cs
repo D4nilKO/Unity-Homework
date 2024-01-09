@@ -8,7 +8,7 @@ namespace Tasks.Platformer.Scripts
 
         private Health _health;
 
-        private void Start()
+        private void Awake()
         {
             if (TryGetComponent(out Health health))
             {
