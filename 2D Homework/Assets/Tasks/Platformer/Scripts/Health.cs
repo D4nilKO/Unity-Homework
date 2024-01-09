@@ -62,11 +62,6 @@ namespace Tasks.Platformer.Scripts
             UpdateHealthToMax();
         }
 
-        private float Clamp(float value, float min, float max)
-        {
-            return Math.Max(min, Math.Min(value, max));
-        }
-
         private void UpdateHealthToMax()
         {
             CurrentHealth = MaxHealth;
