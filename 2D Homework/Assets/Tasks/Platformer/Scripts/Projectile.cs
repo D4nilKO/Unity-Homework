@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Tasks.Platformer.Scripts
@@ -10,12 +9,11 @@ namespace Tasks.Platformer.Scripts
         [SerializeField] private float _damage = 40f;
 
         [SerializeField] private float _speed = 5f;
-        
+
         [SerializeField] private float _timeToDie = 5f;
-        
+
         private Vector3 _direction = Vector3.right;
         private Coroutine _currentCoroutine;
-
 
         private void Start()
         {
