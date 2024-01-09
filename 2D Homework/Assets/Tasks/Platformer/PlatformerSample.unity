@@ -1098,10 +1098,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy 1 Finder (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 3634465679519813090, guid: b4ad0d6421bc79641b327da49fbaeee7, type: 3}
-      propertyPath: _visionRange
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 8777985870849486727, guid: b4ad0d6421bc79641b327da49fbaeee7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.4575605

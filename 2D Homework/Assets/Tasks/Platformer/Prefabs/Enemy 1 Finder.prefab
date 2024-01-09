@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7319422379076414818, guid: 4e62c6385251299458db3b7b88b8fa6d, type: 3}
+      propertyPath: _startMaxHealth
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 8139496086977379819, guid: 4e62c6385251299458db3b7b88b8fa6d, type: 3}
       propertyPath: m_Name
       value: Enemy 1 Finder
@@ -63,6 +67,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8139496086977379819, guid: 4e62c6385251299458db3b7b88b8fa6d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4273244528596666578}
+    - targetCorrespondingSourceObject: {fileID: 8139496086977379819, guid: 4e62c6385251299458db3b7b88b8fa6d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 198103725029788202}
   m_SourcePrefab: {fileID: 100100000, guid: 4e62c6385251299458db3b7b88b8fa6d, type: 3}
 --- !u!1 &2157177208380117513 stripped
 GameObject:
@@ -81,7 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f492dc49671c4978b1926f45fdbcae63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _visionRange: 4
+  _visionRange: 3
 --- !u!114 &4273244528596666578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,6 +99,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d8a60df591c421cbd1d914768f7e15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &198103725029788202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2157177208380117513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ccfeea6594ef574ab2d2765067aec7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 15

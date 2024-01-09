@@ -4,7 +4,7 @@ namespace Tasks.Platformer.Scripts
 {
     public class Enemy : MonoBehaviour
     {
-        [SerializeField] [Min(0.1f)] private float _damage = 0.1f;
+        [SerializeField] [Min(0.1f)] private float _damage = 15f;
 
         private Health _health;
 

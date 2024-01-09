@@ -5,7 +5,7 @@ namespace Tasks.Platformer.Scripts
     [RequireComponent(typeof(PlayerLocator))]
     [RequireComponent(typeof(MoverToTarget))]
     [RequireComponent(typeof(MoverByPoints2D))]
-    public class EnemyWithPlayerLocator : Enemy
+    public class EnemyMoverSwitcher : MonoBehaviour
     {
         private PlayerLocator _playerLocator;
         private MoverToTarget _moverToTarget;
@@ -22,14 +22,14 @@ namespace Tasks.Platformer.Scripts
 
         private void OnEnable()
         {
-            _playerLocator.OnPlayerLocated += SetPlayer;
-            _playerLocator.OnPlayerMissing += GoToPoints;
+            _playerLocator.PlayerFounded += SetPlayer;
+            _playerLocator.PlayerLost += GoToPoints;
         }
 
         private void OnDisable()
         {
-            _playerLocator.OnPlayerLocated -= SetPlayer;
-            _playerLocator.OnPlayerMissing -= GoToPoints;
+            _playerLocator.PlayerFounded -= SetPlayer;
+            _playerLocator.PlayerLost -= GoToPoints;
         }
 
         private void SetPlayer(Player player)

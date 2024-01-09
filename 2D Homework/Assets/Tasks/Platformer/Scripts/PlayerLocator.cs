@@ -7,10 +7,10 @@ namespace Tasks.Platformer.Scripts
     {
         [SerializeField] private float _visionRange = 10f;
 
-        private bool _playerFounded;
+        private bool _isPlayerFounded;
 
-        public event Action<Player> OnPlayerLocated;
-        public event Action OnPlayerMissing;
+        public event Action<Player> PlayerFounded;
+        public event Action PlayerLost;
 
         private void Update()
         {
@@ -22,17 +22,15 @@ namespace Tasks.Platformer.Scripts
             Collider2D player =
                 Physics2D.OverlapCircle(transform.position, _visionRange, LayerMask.GetMask(nameof(Player)));
 
-            if (player && _playerFounded == false)
+            if (player && _isPlayerFounded == false)
             {
-                OnPlayerLocated?.Invoke(player.GetComponent<Player>());
-                Debug.Log("Player found");
-                _playerFounded = true;
+                PlayerFounded?.Invoke(player.GetComponent<Player>());
+                _isPlayerFounded = true;
             }
-            else if (player == null && _playerFounded)
+            else if (player == null && _isPlayerFounded)
             {
-                OnPlayerMissing?.Invoke();
-                Debug.Log("Player missing");
-                _playerFounded = false;
+                PlayerLost?.Invoke();
+                _isPlayerFounded = false;
             }
         }
 

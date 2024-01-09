@@ -5,7 +5,7 @@ namespace Tasks.Platformer.Scripts
 {
     public class Health : MonoBehaviour
     {
-       [SerializeField] [Min(0.1f)] private float _startMaxHealth = 1f;
+        [SerializeField] [Min(0.1f)] private float _startMaxHealth = 1f;
 
         private float _currentHealth;
 
