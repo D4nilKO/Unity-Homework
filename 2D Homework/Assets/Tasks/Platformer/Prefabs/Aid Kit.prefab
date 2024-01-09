@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b903fb5f8a24087b47d5a9bfeebee6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _onCollect:
+  _collected:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7825948244750578805}
