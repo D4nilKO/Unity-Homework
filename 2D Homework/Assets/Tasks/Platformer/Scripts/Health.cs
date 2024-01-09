@@ -5,11 +5,12 @@ namespace Tasks.Platformer.Scripts
 {
     public class Health : MonoBehaviour
     {
+       [SerializeField] [Min(0.1f)] private float _startMaxHealth = 1f;
+
         private float _currentHealth;
 
         public event Action OnDamageApplied;
 
-        [SerializeField] [Min(0.1f)] private float _startMaxHealth = 1f;
         public float MaxHealth { get; private set; }
 
         public bool IsAlive => CurrentHealth > 0;
