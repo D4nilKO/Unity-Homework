@@ -22,6 +22,9 @@ namespace Tasks.Platformer.Scripts
             {
                 _currentHealth = Clamp(value, 0f, MaxHealth);
                 Debug.Log($"{gameObject.name} - current Health = {_currentHealth}");
+
+                if (_currentHealth <= 0)
+                    gameObject.SetActive(false);
             }
         }
 
@@ -43,7 +46,7 @@ namespace Tasks.Platformer.Scripts
         {
             if (damage < 0)
                 return;
-            
+
             CurrentHealth -= damage;
 
             OnDamageApplied?.Invoke();
