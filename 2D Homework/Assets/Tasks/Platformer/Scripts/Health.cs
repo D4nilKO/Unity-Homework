@@ -20,7 +20,7 @@ namespace Tasks.Platformer.Scripts
 
             private set
             {
-                _currentHealth = Clamp(value, 0f, MaxHealth);
+                _currentHealth = Mathf.Clamp(value, 0f, MaxHealth);
                 Debug.Log($"{gameObject.name} - current Health = {_currentHealth}");
 
                 if (_currentHealth <= 0)
