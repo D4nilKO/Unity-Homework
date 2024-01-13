@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Tasks.Platformer.Scripts
 {
@@ -7,7 +8,7 @@ namespace Tasks.Platformer.Scripts
         [SerializeField] [Range(1, 10)] private int _speed;
         [SerializeField] private Transform _target;
 
-        public bool IsReached => transform.position == _target.position;
+        public event Action OnReached;
 
         public void SetTarget(Transform target)
         {
@@ -22,6 +23,11 @@ namespace Tasks.Platformer.Scripts
         private void Move()
         {
             transform.position = Vector2.MoveTowards(transform.position, _target.position, _speed * Time.deltaTime);
+            
+            if (transform.position == _target.position)
+            {
+                OnReached?.Invoke();
+            }
         }
     }
 }

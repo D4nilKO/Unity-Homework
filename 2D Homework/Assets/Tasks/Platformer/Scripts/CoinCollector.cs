@@ -17,7 +17,7 @@ namespace Tasks.Platformer.Scripts
             if (col.TryGetComponent(out Coin coin))
             {
                 _wallet.Add(coin.Amount);
-                Destroy(coin.gameObject);
+                coin.gameObject.SetActive(false);
             }
         }
     }

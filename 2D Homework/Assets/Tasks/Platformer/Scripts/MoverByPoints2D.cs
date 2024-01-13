@@ -20,13 +20,17 @@ namespace Tasks.Platformer.Scripts
             SetPoints();
 
             _target = _points[_currentPoint];
-            _moverToTarget.SetTarget(_target);
+            UpdateTarget();
         }
 
-        private void Update()
+        private void OnEnable()
         {
-            if (_moverToTarget.IsReached)
-                SetNextTarget();
+            _moverToTarget.OnReached += SetNextTarget;
+        }
+
+        private void OnDisable()
+        {
+            _moverToTarget.OnReached -= SetNextTarget;
         }
 
         private void SetPoints()
@@ -48,6 +52,11 @@ namespace Tasks.Platformer.Scripts
                 _currentPoint = 0;
 
             _target = _points[_currentPoint];
+            UpdateTarget();
+        }
+
+        public void UpdateTarget()
+        {
             _moverToTarget.SetTarget(_target);
         }
     }
