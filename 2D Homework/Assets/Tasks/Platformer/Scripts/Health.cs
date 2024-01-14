@@ -9,7 +9,8 @@ namespace Tasks.Platformer.Scripts
 
         private float _currentHealth;
 
-        public event Action OnDamageApplied;
+        public event Action DamageApplied;
+        public event Action<float> HealthChanged;
 
         public float MaxHealth { get; private set; }
 
@@ -23,9 +24,11 @@ namespace Tasks.Platformer.Scripts
             {
                 _currentHealth = Mathf.Clamp(value, 0f, MaxHealth);
                 Debug.Log($"{gameObject.name} - current Health = {_currentHealth}");
+                
+                HealthChanged?.Invoke(_currentHealth);
 
                 if (_currentHealth <= 0)
-                    gameObject.SetActive(false);
+                    Dead();
             }
         }
 
@@ -50,7 +53,7 @@ namespace Tasks.Platformer.Scripts
 
             CurrentHealth -= damage;
 
-            OnDamageApplied?.Invoke();
+            DamageApplied?.Invoke();
         }
 
         public void SetMaxHealth(float maxHealth)
@@ -66,6 +69,11 @@ namespace Tasks.Platformer.Scripts
         private void UpdateHealthToMax()
         {
             CurrentHealth = MaxHealth;
+        }
+
+        private void Dead()
+        {
+            gameObject.SetActive(false);
         }
     }
 }
