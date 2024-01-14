@@ -23,11 +23,11 @@ namespace Tasks.Platformer.Scripts
             private set
             {
                 _currentHealth = Mathf.Clamp(value, 0f, MaxHealth);
-                Debug.Log($"{gameObject.name} - current Health = {_currentHealth}");
-                
+                Debug.Log($"{gameObject.name} - {_currentHealth}/{MaxHealth}");
+
                 HealthChanged?.Invoke(_currentHealth);
 
-                if (_currentHealth <= 0)
+                if (IsAlive == false)
                     Dead();
             }
         }

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Tasks.Health_Bar
+namespace Tasks.Health_Bar.Scripts
 {
     public class HealthBarSmooth : HealthBar
     {
@@ -37,23 +37,14 @@ namespace Tasks.Health_Bar
 
         private IEnumerator SmoothFillBar(float targetValue)
         {
-            targetValue = Map(targetValue, 0, _health.MaxHealth, 0, 1);
+            targetValue /= _health.MaxHealth;
 
             while (Bar.value != targetValue)
             {
-                float value = Mathf.MoveTowards(Bar.value, targetValue, _step);
-                Debug.Log(value);
-                Bar.value = value;
+                Bar.value = Mathf.MoveTowards(Bar.value, targetValue, _step);;
 
                 yield return null;
             }
-
-            Debug.Log("End");
-        }
-
-        private float Map(float value, float inMin, float inMax, float outMin, float outMax)
-        {
-            return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
         }
     }
 }
