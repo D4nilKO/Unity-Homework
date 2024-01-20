@@ -1,13 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Tasks.Platformer.Scripts
 {
-    [RequireComponent(typeof(PlayerLocator))]
+    [RequireComponent(typeof(ObjectLocator))]
     [RequireComponent(typeof(MoverToTarget))]
     [RequireComponent(typeof(MoverByPoints2D))]
     public class EnemyMoverSwitcher : MonoBehaviour
     {
-        private PlayerLocator _playerLocator;
+        private ObjectLocator _objectLocator;
         private MoverToTarget _moverToTarget;
         private MoverByPoints2D _moverByPoints;
 
@@ -15,28 +16,39 @@ namespace Tasks.Platformer.Scripts
 
         private void Awake()
         {
-            _playerLocator = GetComponent<PlayerLocator>();
+            _objectLocator = GetComponent<ObjectLocator>();
             _moverToTarget = GetComponent<MoverToTarget>();
             _moverByPoints = GetComponent<MoverByPoints2D>();
         }
 
+        private void Update()
+        {
+            _objectLocator.Locate();
+        }
+
         private void OnEnable()
         {
-            _playerLocator.PlayerFounded += SetPlayer;
-            _playerLocator.PlayerLost += GoToPoints;
+            _objectLocator.TargetFounded += SetTarget;
+            _objectLocator.TargetLost += GoToPoints;
         }
 
         private void OnDisable()
         {
-            _playerLocator.PlayerFounded -= SetPlayer;
-            _playerLocator.PlayerLost -= GoToPoints;
+            _objectLocator.TargetFounded -= SetTarget;
+            _objectLocator.TargetLost -= GoToPoints;
         }
 
-        private void SetPlayer(Player player)
+        private void SetTarget(GameObject player)
         {
-            _player = player;
-
-            GoToPlayer();
+            if (player.TryGetComponent(out Player playerComponent))
+            {
+                _player = playerComponent;
+                GoToPlayer();
+            }
+            else
+            {
+                Debug.LogWarning("Player component not found in target");
+            }
         }
 
         private void GoToPlayer()
