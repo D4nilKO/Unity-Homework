@@ -11,17 +11,15 @@ namespace Tasks.Platformer.Scripts
         [SerializeField] [Min(0.1f)] private float _tickDamage = 0.1f;
         [SerializeField] [Min(0.1f)] private float _timeToTick = 0.1f;
         [SerializeField] [Min(0.1f)] private float _duration = 6f;
-        
-        [SerializeField] private KeyCode _keyCode = KeyCode.E;
 
-        [SerializeField] private LayerMask _layerMask;
-        
-        // private bool _isTargetFounded;
+        [SerializeField] private KeyCode _keyCode = KeyCode.E;
 
         private Coroutine _currentCoroutine;
 
         private ObjectLocator _objectLocator;
         private Health _health;
+
+        private bool _isActive;
 
         private void Awake()
         {
@@ -29,42 +27,23 @@ namespace Tasks.Platformer.Scripts
             _objectLocator = GetComponent<ObjectLocator>();
         }
 
-        private void OnEnable()
-        {
-            _objectLocator.TargetFounded += StartDamaging;
-            _objectLocator.TargetLost += StopDamaging;
-        }
-
         private void OnDisable()
         {
             StopDamaging();
-            
-            _objectLocator.TargetFounded -= StartDamaging;
-            _objectLocator.TargetLost -= StopDamaging;
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(_keyCode))
+            if (Input.GetKeyDown(_keyCode) && _isActive == false)
             {
-                StopDamaging();
-                
-                _objectLocator.Locate();
-            }
-            else if (_objectLocator.IsTargetAlreadyFounded)
-            {
-                _objectLocator.Locate();
+                StartDamaging();
             }
         }
 
-        private void StartDamaging(GameObject target)
+        private void StartDamaging()
         {
-            if (_currentCoroutine != null)
-            {
-                StopCoroutine(_currentCoroutine);
-            }
-
-            StartCoroutine(StealingHealth(target));
+            StopDamaging();
+            _currentCoroutine = StartCoroutine(StealingHealth());
         }
 
         private void StopDamaging()
@@ -72,31 +51,35 @@ namespace Tasks.Platformer.Scripts
             if (_currentCoroutine != null)
             {
                 StopCoroutine(_currentCoroutine);
+                _isActive = false;
             }
         }
 
-        private IEnumerator StealingHealth(GameObject target)
+        private IEnumerator StealingHealth()
         {
             WaitForSeconds tick = new(_timeToTick);
-            
-            // _isTargetFounded = true;
-
             int countOfTicks = Mathf.CeilToInt(_duration / _timeToTick);
+
+            _isActive = true;
 
             for (int i = 0; i < countOfTicks; i++)
             {
+                GameObject target = _objectLocator.Locate();
                 StealHealth(target, _tickDamage);
 
                 yield return tick;
             }
-            
-            _objectLocator.ClearFlag();
+
+            _isActive = false;
         }
 
         private void StealHealth(GameObject target, float health)
         {
-            target.GetComponent<Health>().ApplyDamage(health);
-            _health.Heal(health);
+            if (target.activeInHierarchy && target.TryGetComponent(out Health targetHealth) && targetHealth.IsAlive)
+            {
+                targetHealth.ApplyDamage(health);
+                _health.Heal(health);
+            }
         }
     }
 }

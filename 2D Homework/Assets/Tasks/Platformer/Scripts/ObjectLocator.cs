@@ -9,26 +9,47 @@ namespace Tasks.Platformer.Scripts
         [SerializeField] private float _visionRange = 10f;
 
         [SerializeField] private LayerMask _targetLayerMask;
+        
+        private int _maxCountFoundObjects = 10;
 
         public bool IsTargetAlreadyFounded { get; private set; }
 
         public event Action<GameObject> TargetFounded;
         public event Action TargetLost;
 
-        public void Locate()
+        public void TrackingLocate()
         {
-            Debug.Log("Locate");
-
-            Collider2D[] allObjects =
-                Physics2D.OverlapCircleAll(transform.position, _visionRange, _targetLayerMask);
-
-            Collider2D target = allObjects.OrderBy(obj => Vector2.Distance(transform.position, obj.transform.position))
-                .FirstOrDefault();
+            GameObject target = Locate();
 
             if (target != null && IsTargetAlreadyFounded == false)
             {
-                
+                IsTargetAlreadyFounded = true;
+                TargetFounded?.Invoke(target.gameObject);
+
+                Debug.Log("Target founded");
             }
+
+            if (target == null && IsTargetAlreadyFounded)
+            {
+                TargetLost?.Invoke();
+                IsTargetAlreadyFounded = false;
+
+                Debug.Log("Target lost");
+            }
+        }
+
+        public GameObject Locate()
+        {
+            Collider2D [] allObjects = new Collider2D[_maxCountFoundObjects];
+            
+            int size = Physics2D.OverlapCircleNonAlloc(transform.position, _visionRange, allObjects, _targetLayerMask);
+
+            GameObject target = allObjects.Take(size)
+                .OrderBy(objectCollider => Vector2.Distance(transform.position, objectCollider.transform.position))
+                .FirstOrDefault()?.gameObject;
+
+            Debug.Log("Target: " + (target != null ? target.name : null));
+            return target;
         }
 
         public void ClearFlag()

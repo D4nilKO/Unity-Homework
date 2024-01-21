@@ -23,7 +23,7 @@ namespace Tasks.Platformer.Scripts
 
         private void Update()
         {
-            _objectLocator.Locate();
+            _objectLocator.TrackingLocate();
         }
 
         private void OnEnable()
