@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Tasks.Platformer.Scripts
@@ -15,21 +14,15 @@ namespace Tasks.Platformer.Scripts
         [SerializeField] private KeyCode _keyCode = KeyCode.E;
 
         private Coroutine _currentCoroutine;
+        private bool _isActive;
 
         private ObjectLocator _objectLocator;
         private Health _health;
-
-        private bool _isActive;
 
         private void Awake()
         {
             _health = GetComponent<Health>();
             _objectLocator = GetComponent<ObjectLocator>();
-        }
-
-        private void OnDisable()
-        {
-            StopDamaging();
         }
 
         private void Update()
@@ -38,6 +31,11 @@ namespace Tasks.Platformer.Scripts
             {
                 StartDamaging();
             }
+        }
+
+        private void OnDisable()
+        {
+            StopDamaging();
         }
 
         private void StartDamaging()
@@ -64,8 +62,10 @@ namespace Tasks.Platformer.Scripts
 
             for (int i = 0; i < countOfTicks; i++)
             {
-                GameObject target = _objectLocator.Locate();
-                StealHealth(target, _tickDamage);
+                if (_objectLocator.TryLocate(out GameObject target))
+                {
+                    StealHealth(target, _tickDamage);
+                }
 
                 yield return tick;
             }

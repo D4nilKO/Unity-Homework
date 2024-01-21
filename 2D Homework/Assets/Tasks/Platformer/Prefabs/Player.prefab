@@ -153,6 +153,8 @@ GameObject:
   - component: {fileID: 8052815085891751202}
   - component: {fileID: 8391388508761514370}
   - component: {fileID: 2903951387849037342}
+  - component: {fileID: 600475815604451875}
+  - component: {fileID: 6864038698989519868}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -405,6 +407,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projectilePrefab: {fileID: 394487126707668328, guid: 1be888b93a3c5e44a9555e9551f139ac, type: 3}
+--- !u!114 &600475815604451875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9104516410571699767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d023643017343c5bd9d10009a2ea4e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tickDamage: 0.1
+  _timeToTick: 0.1
+  _duration: 6
+  _keyCode: 101
+--- !u!114 &6864038698989519868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9104516410571699767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f492dc49671c4978b1926f45fdbcae63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _visionRange: 6
+  _targetLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1001 &7948698293710668067
 PrefabInstance:
   m_ObjectHideFlags: 0

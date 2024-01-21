@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Tasks.Platformer.Scripts
 {
@@ -38,9 +37,9 @@ namespace Tasks.Platformer.Scripts
             _objectLocator.TargetLost -= GoToPoints;
         }
 
-        private void SetTarget(GameObject player)
+        private void SetTarget(GameObject target)
         {
-            if (player.TryGetComponent(out Player playerComponent))
+            if (target.TryGetComponent(out Player playerComponent))
             {
                 _player = playerComponent;
                 GoToPlayer();
