@@ -11,7 +11,7 @@ namespace Tasks.Health_Bar.Scripts
 
         protected override void OnDisableAdditional()
         {
-            if (_currentCoroutine == null)
+            if (_currentCoroutine != null)
             {
                 StopCoroutine(_currentCoroutine);
             }

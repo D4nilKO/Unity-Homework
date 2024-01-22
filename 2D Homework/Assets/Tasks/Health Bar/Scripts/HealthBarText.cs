@@ -1,4 +1,5 @@
-﻿using Tasks.Platformer.Scripts;
+﻿using System;
+using Tasks.Platformer.Scripts;
 using TMPro;
 using UnityEngine;
 
@@ -8,14 +9,14 @@ namespace Tasks.Health_Bar.Scripts
     public class HealthBarText : MonoBehaviour
     {
         [SerializeField] protected Health _health;
-        
+
         private TextMeshProUGUI _barText;
-        
+
         private void Awake()
         {
             _barText = gameObject.GetComponent<TextMeshProUGUI>();
         }
-        
+
         private void OnEnable()
         {
             _health.HealthChanged += UpdateBar;
@@ -28,7 +29,7 @@ namespace Tasks.Health_Bar.Scripts
 
         private void UpdateBar(float health)
         {
-            _barText.text = $"{health} / {_health.MaxHealth}";
+            _barText.text = $"{Math.Round(health, 2)} / {_health.MaxHealth}";
         }
     }
 }
