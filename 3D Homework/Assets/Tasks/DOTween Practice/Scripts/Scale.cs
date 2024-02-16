@@ -1,16 +1,16 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
 
 namespace Tasks.DOTween_Practice.Scripts
 {
-    public class Move : MonoBehaviour
+    public class Scale: MonoBehaviour
     {
         [SerializeField] private float _duration;
-        [SerializeField] private float _distance;
-
+        [SerializeField] private float _maxScale;
+        
         private void Start()
         {
-            transform.DOMove(transform.position + Vector3.right * _distance, _duration)
+            transform.DOScale(new Vector3(_maxScale, _maxScale, _maxScale), _duration)
                 .SetLoops(-1, LoopType.Yoyo)
                 .SetEase(Ease.Linear);
         }

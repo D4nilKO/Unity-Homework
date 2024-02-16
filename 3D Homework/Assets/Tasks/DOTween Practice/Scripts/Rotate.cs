@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace Tasks.DOTween_Practice.Scripts
 {
-    public class Move : MonoBehaviour
+    public class Rotate : MonoBehaviour
     {
         [SerializeField] private float _duration;
-        [SerializeField] private float _distance;
+        [SerializeField] private float _angle;
 
         private void Start()
         {
-            transform.DOMove(transform.position + Vector3.right * _distance, _duration)
-                .SetLoops(-1, LoopType.Yoyo)
+            transform.DORotate(transform.eulerAngles + Vector3.forward * _angle, _duration)
+                .SetLoops(-1, LoopType.Restart)
                 .SetEase(Ease.Linear);
         }
     }
