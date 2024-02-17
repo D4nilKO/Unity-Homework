@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Tasks.DOTween_Practice.Scripts
 {
+    [RequireComponent(typeof(Renderer))]
     public class ColorChanger : MonoBehaviour
     {
         [SerializeField] private Color _targetColor;
@@ -13,7 +14,7 @@ namespace Tasks.DOTween_Practice.Scripts
         private void Start()
         {
             _material = GetComponent<Renderer>().material;
-            
+
             _material.DOColor(_targetColor, _duration)
                 .SetLoops(-1, LoopType.Yoyo);
         }
