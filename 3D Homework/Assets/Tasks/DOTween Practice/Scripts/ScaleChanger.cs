@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Tasks.DOTween_Practice.Scripts
 {
-    public class Scale: MonoBehaviour
+    public class SelfScaler: MonoBehaviour
     {
         [SerializeField] private float _duration;
         [SerializeField] private float _maxScale;
